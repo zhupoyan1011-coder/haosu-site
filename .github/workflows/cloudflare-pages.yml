@@ -27,5 +27,8 @@ jobs:
         run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
       - name: Deploy
         run: npx --yes wrangler@3 pages deploy dist --project-name "$PROJECT" --branch main --commit-dirty=true
-      - name: List projects
-        run: npx --yes wrangler@3 pages project list
+      - name: Report site addresses
+        run: |
+          npx --yes wrangler@3 pages project list > projects.txt
+          cat projects.txt
+          grep -oE '[a-z0-9-]+\.pages\.dev' projects.txt | sort -u | while read d; do echo "::notice title=pages::$d"; done
