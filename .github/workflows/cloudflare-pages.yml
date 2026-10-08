@@ -8,11 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Skips quietly until the Cloudflare secrets are added to the repo
-    if: ${{ vars.CF_READY == 'true' || github.event_name == 'workflow_dispatch' }}
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ACCOUNT_ID_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       PROJECT: haosu-studio
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +18,14 @@ jobs:
         run: |
           mkdir dist
           cp index.html dist/
+      - name: Resolve account
+        run: |
+          # wrangler picks the token's only account when no ID is given
+          if [ -n "$ACCOUNT_ID_SECRET" ]; then echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID_SECRET" >> "$GITHUB_ENV"; fi
+          npx --yes wrangler@3 whoami
       - name: Create project if missing
         run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
       - name: Deploy
-        run: npx --yes wrangler@3 pages deploy dist --project-name "$PROJECT" --branch main
+        run: npx --yes wrangler@3 pages deploy dist --project-name "$PROJECT" --branch main --commit-dirty=true
       - name: List projects
         run: npx --yes wrangler@3 pages project list
