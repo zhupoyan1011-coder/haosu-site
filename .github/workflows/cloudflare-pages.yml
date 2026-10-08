@@ -17,12 +17,11 @@ jobs:
       - name: Collect site files
         run: |
           mkdir dist
-          cp index.html dist/
+          cp -r *.html *.svg *.png *.jpg *.txt *.xml *.webmanifest _headers assets dist/
       - name: Resolve account
         run: |
           # wrangler picks the token's only account when no ID is given
           if [ -n "$ACCOUNT_ID_SECRET" ]; then echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID_SECRET" >> "$GITHUB_ENV"; fi
-          npx --yes wrangler@3 whoami
       - name: Create project if missing
         run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
       - name: Deploy
@@ -30,5 +29,5 @@ jobs:
       - name: Report site addresses
         run: |
           npx --yes wrangler@3 pages project list > projects.txt
-          cat projects.txt
           grep -oE '[a-z0-9-]+\.pages\.dev' projects.txt | sort -u | while read d; do echo "::notice title=pages::$d"; done
+          echo "::notice title=files::$(find dist -type f | wc -l)"
