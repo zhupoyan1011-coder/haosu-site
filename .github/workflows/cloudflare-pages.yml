@@ -1,0 +1,28 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Skips quietly until the Cloudflare secrets are added to the repo
+    if: ${{ vars.CF_READY == 'true' || github.event_name == 'workflow_dispatch' }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PROJECT: haosu-studio
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect site files
+        run: |
+          mkdir dist
+          cp index.html dist/
+      - name: Create project if missing
+        run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
+      - name: Deploy
+        run: npx --yes wrangler@3 pages deploy dist --project-name "$PROJECT" --branch main
+      - name: List projects
+        run: npx --yes wrangler@3 pages project list
