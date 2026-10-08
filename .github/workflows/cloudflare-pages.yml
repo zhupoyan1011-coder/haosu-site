@@ -27,8 +27,6 @@ jobs:
         run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
       - name: Deploy
         run: npx --yes wrangler@3 pages deploy dist --project-name "$PROJECT" --branch main --commit-dirty=true
-      - name: Remove old haosu-9v2 project
-        run: npx --yes wrangler@3 pages project delete haosu-9v2 --yes || echo "::warning::could not delete haosu-9v2"
       - name: Report site addresses
         run: |
           npx --yes wrangler@3 pages project list > projects.txt
