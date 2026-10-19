@@ -31,3 +31,21 @@ jobs:
           npx --yes wrangler@3 pages project list > projects.txt
           grep -oE '[a-z0-9-]+\.pages\.dev' projects.txt | sort -u | while read d; do echo "::notice title=pages::$d"; done
           echo "::notice title=files::$(find dist -type f | wc -l)"
+
+  deploy-bahanhan:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACCOUNT_ID_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PROJECT: bahanhan-redesign
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve account
+        run: |
+          if [ -n "$ACCOUNT_ID_SECRET" ]; then echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID_SECRET" >> "$GITHUB_ENV"; fi
+      - name: Create project if missing
+        run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
+      - name: Deploy
+        run: npx --yes wrangler@3 pages deploy bahanhan-redesign --project-name "$PROJECT" --branch main --commit-dirty=true
+      - name: Report file count
+        run: echo "::notice title=files::$(find bahanhan-redesign -type f | wc -l)"
