@@ -4,7 +4,12 @@
     zh: { label: '電話直訂享 9 折', num: '0966-717-732', copyVal: '0966-717-732', note: '來電不限時段', copy: '複製號碼', done: '已複製' },
     en: { label: 'Call to book · 10% off', num: '+886 966 717 732', copyVal: '+886966717732', note: 'Calls welcome any time', copy: 'Copy number', done: 'Copied' }
   };
-  var card, label, num, note, btn, timer;
+  var LINE = {
+    zh: { h: '也可以用 LINE 詢問', p: '掃描 QR code，或點按鈕加入好友', b: '加入 LINE 好友', alt: '芭涵漢民宿 LINE QR code' },
+    en: { h: 'Or message us on LINE', p: 'Scan the QR code, or tap the button to add us', b: 'Add on LINE', alt: 'LINE QR code' }
+  };
+  var LINE_URL = 'https://line.me/R/ti/p/RkYPO08qcT';
+  var card, label, num, note, btn, timer, band, lh, lp, lb, lq;
 
   function t() { return TEXT[location.pathname.indexOf('/en') === 0 ? 'en' : 'zh']; }
 
@@ -14,6 +19,8 @@
     num.textContent = s.num;
     note.textContent = s.note;
     btn.textContent = s.copy;
+    var l = LINE[location.pathname.indexOf('/en') === 0 ? 'en' : 'zh'];
+    lh.textContent = l.h; lp.textContent = l.p; lb.textContent = l.b; lq.alt = l.alt;
   }
 
   function copy() {
@@ -48,6 +55,15 @@
     row.appendChild(note); row.appendChild(btn);
     card.appendChild(label); card.appendChild(num); card.appendChild(row);
     document.body.appendChild(card);
+    band = document.createElement('section');
+    band.className = 'line-band';
+    lq = document.createElement('img'); lq.src = '/assets/line-qr.svg'; lq.width = 112; lq.height = 112; lq.loading = 'lazy';
+    var box = document.createElement('div'); box.className = 'lb-text';
+    lh = document.createElement('strong'); lp = document.createElement('span');
+    lb = document.createElement('a'); lb.href = LINE_URL; lb.target = '_blank'; lb.rel = 'noopener';
+    box.appendChild(lh); box.appendChild(lp); box.appendChild(lb);
+    band.appendChild(lq); band.appendChild(box);
+    document.body.appendChild(band);
     render();
     toggle();
   }
