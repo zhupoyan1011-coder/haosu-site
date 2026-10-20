@@ -68,5 +68,7 @@ jobs:
         run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
       - name: Deploy
         run: npx --yes wrangler@3 pages deploy oiacafe-redesign --project-name "$PROJECT" --branch main --commit-dirty=true
-      - name: Report file count
-        run: echo "::notice title=files::$(find oiacafe-redesign -type f | wc -l)"
+      - name: Report site address
+        run: |
+          npx --yes wrangler@3 pages project list > projects.txt
+          grep -oE 'oiacafe-redesign[a-z0-9-]*\.pages\.dev' projects.txt | sort -u | while read d; do echo "::notice title=pages::$d"; done
