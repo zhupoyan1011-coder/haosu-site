@@ -25,12 +25,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+/* 動態只在使用者沒有選「減少動態效果」時開啟；開場動畫每個瀏覽階段只播一次 */
+(function (d) {
+  var h = d.documentElement; h.classList.add('js');
+  if (!window.matchMedia || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  h.classList.add('motion');
+  try { if (!sessionStorage.getItem('oia-intro')) { h.classList.add('has-curtain'); sessionStorage.setItem('oia-intro', '1'); } } catch (e) {}
+})(document);
+</script>
 </head>
 <body>
+<div class="curtain" aria-hidden="true">
+  <svg viewBox="0 0 40 24"><path pathLength="1" d="M2 16c4-6 8-6 12 0s8 6 12 0 8-6 12 0"/></svg>
+  <span>Oia</span>
+</div>
 <a class="skip" href="#main">跳到主要內容</a>
 
 <header class="bar" id="top">
+  <span class="bar__progress" aria-hidden="true"></span>
   <div class="bar__in">
     <a class="brand" href="#top" aria-label="伊亞咖啡民宿，回到頁首">
       <svg class="brand__mark" viewBox="0 0 40 24" aria-hidden="true"><path d="M2 16c4-6 8-6 12 0s8 6 12 0 8-6 12 0"/></svg>
@@ -68,7 +81,7 @@
   <div class="wrap hero__grid">
     <div class="hero__text">
       <p class="eyebrow">台東市・舊鐵道步道旁</p>
-      <h1 class="hero__title" id="hero-title"><span class="ln">在舊鐵道旁，</span><span class="ln">住進一座<span class="hl">地中海</span>。</span></h1>
+      <h1 class="hero__title" id="hero-title"><span class="ln"><span>在舊鐵道旁，</span></span><span class="ln"><span>住進一座<span class="hl">地中海</span>。</span></span></h1>
       <p class="hero__en" lang="en">Oia Cafe &amp; B&amp;B — a whitewashed house by Taitung's old railway</p>
       <div class="hero__cta">
         <a class="btn btn--primary btn--lg" href="#rooms">看八間客房</a>
@@ -89,7 +102,7 @@
   </div>
 </section>
 
-<svg class="wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q 60 0 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20 T 1200 20 T 1320 20 T 1440 20"/></svg>
+<svg class="wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-240 20 Q -180 0 -120 20 T 0 20 T 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20 T 1200 20 T 1320 20 T 1440 20 T 1560 20 T 1680 20"/></svg>
 
 <!-- ============ ABOUT ============ -->
 <section class="sec about" id="about" aria-labelledby="about-title">
@@ -105,10 +118,10 @@
       </dl>
     </div>
     <div class="about__photos">
-      <figure class="arch arch--tall">
+      <figure class="arch arch--tall" data-parallax="0.06">
         <img src="img/env_1.webp" alt="白牆藍欄杆的伊亞，緊鄰鋪著木棧道的舊鐵道步道" width="1440" height="963" loading="lazy">
       </figure>
-      <figure class="arch arch--short">
+      <figure class="arch arch--short" data-parallax="0.1">
         <img src="img/spac_1.webp" alt="伊亞館內的公共空間" loading="lazy">
       </figure>
     </div>
@@ -139,6 +152,14 @@
     </ul>
   </div>
 </section>
+
+<!-- 跑馬燈：裝飾用，螢幕閱讀器略過 -->
+<div class="band" aria-hidden="true">
+  <div class="band__track">
+    <span>Oia</span><i>✦</i><span>白牆藍窗</span><i>✦</i><span>Old Railway</span><i>✦</i><span>一樓的咖啡香</span><i>✦</i><span>Taitung</span><i>✦</i><span>早晨的一杯</span><i>✦</i>
+    <span>Oia</span><i>✦</i><span>白牆藍窗</span><i>✦</i><span>Old Railway</span><i>✦</i><span>一樓的咖啡香</span><i>✦</i><span>Taitung</span><i>✦</i><span>早晨的一杯</span><i>✦</i>
+  </div>
+</div>
 
 <!-- ============ ROOMS ============ -->
 <section class="sec rooms" id="rooms" aria-labelledby="rooms-title">
@@ -205,7 +226,7 @@
       </div>
     </div>
     <div class="cafe__side">
-      <figure class="cafe__photo">
+      <figure class="cafe__photo" data-parallax="0.06">
         <img src="img/spac_3.webp" alt="一樓咖啡館的拱形大窗與牆上的手繪桌椅畫" width="1600" height="1070" loading="lazy">
       </figure>
       <div class="menu">
@@ -231,6 +252,7 @@
         <h2 class="h2" id="gallery-title">伊亞的光與影。</h2>
       </div>
       <div class="tabs" role="tablist" aria-label="照片分類">
+        <span class="tabs__pill" aria-hidden="true"></span>
         <button type="button" role="tab" id="tab-env" aria-selected="true" aria-controls="gallery-grid" data-set="env">館外</button>
         <button type="button" role="tab" id="tab-spac" aria-selected="false" aria-controls="gallery-grid" data-set="spac" tabindex="-1">館內</button>
         <button type="button" role="tab" id="tab-room" aria-selected="false" aria-controls="gallery-grid" data-set="room" tabindex="-1">客房</button>
@@ -259,8 +281,8 @@
       <p class="eyebrow"><span class="num">05</span>住宿須知</p>
       <h2 class="h2" id="stay-title">入住前，<br>你需要知道的就這些。</h2>
       <div class="times">
-        <div><span>入住 Check-in</span><b>15:00</b><small>最晚 22:00 辦理</small></div>
-        <div><span>退房 Check-out</span><b>11:00</b><small>行李可詢問櫃檯協助</small></div>
+        <div><span>入住 Check-in</span><b data-roll>15:00</b><small>最晚 22:00 辦理</small></div>
+        <div><span>退房 Check-out</span><b data-roll>11:00</b><small>行李可詢問櫃檯協助</small></div>
       </div>
     </div>
     <dl class="info">
@@ -301,7 +323,7 @@
 
 <!-- ============ CONTACT / CTA ============ -->
 <section class="finale" id="contact" aria-labelledby="finale-title">
-  <figure class="finale__bg"><img src="img/slide_10.webp" alt="" loading="lazy"></figure>
+  <figure class="finale__bg" data-parallax="0.08"><img src="img/slide_10.webp" alt="" loading="lazy"></figure>
   <div class="wrap">
     <div class="finale__card">
       <p class="finale__en" lang="en">See you in Oia.</p>
@@ -326,7 +348,7 @@
 </main>
 
 <footer class="foot">
-  <svg class="wave wave--foot" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q 60 0 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20 T 1200 20 T 1320 20 T 1440 20"/></svg>
+  <svg class="wave wave--foot" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-240 20 Q -180 0 -120 20 T 0 20 T 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20 T 1200 20 T 1320 20 T 1440 20 T 1560 20 T 1680 20"/></svg>
   <div class="wrap foot__in">
     <div class="foot__brand"><span class="brand__en">Oia</span> 伊亞咖啡民宿</div>
     <p>950 台東市正氣北路 76 巷 62 弄 11 號・台東縣民宿登記第 172 號</p>
