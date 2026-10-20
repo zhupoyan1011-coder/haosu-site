@@ -28,8 +28,7 @@ main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;
 .mobile-booking>a:last-child span{display:block;text-align:center;font-size:13px;line-height:1.35}
 .mobile-booking>a:last-child span::before{content:"0966-717-732";display:block;font-size:22px;font-weight:700;letter-spacing:.06em;line-height:1.25}
 .mobile-booking>a:last-child small{display:inline;font-size:11px;margin-left:6px;color:#f1e6d6}
-.compact-site{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
-@media(min-width:768px){.compact-site{padding-bottom:0}}
+.compact-site{padding-bottom:0}
 
 /* Footer number */
 .footer-phone{font-size:28px;font-weight:700;letter-spacing:.06em;text-decoration:underline;text-underline-offset:6px;margin-bottom:6px}
@@ -55,3 +54,13 @@ main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;
 .compact-site[lang^="en"] .header-phone small,.compact-site[lang^="en"] .footer-phone{font-size:0;line-height:0}
 .compact-site[lang^="en"] .header-phone small::after{content:"+886 966 717 732";font-size:18px;line-height:1.3}
 .compact-site[lang^="en"] .footer-phone::after{content:"+886 966 717 732";font-size:28px;line-height:1.3}
+
+/* LINE band under the footer (added by call-boost.js): QR for desktop, button for phones */
+.line-band{display:flex;align-items:center;justify-content:center;gap:24px;padding:28px 20px calc(28px + 86px + env(safe-area-inset-bottom));background:#2d2823;color:#fff;border-top:1px solid #4a4037}
+.line-band img{display:none;width:112px;height:112px;border-radius:2px;background:#fff}
+.line-band .lb-text{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:14px;color:#d9d0c0}
+.line-band strong{font-size:18px;color:#fff;font-weight:700}
+.line-band a{margin-top:6px;display:inline-flex;align-items:center;min-height:44px;padding:8px 22px;border:1px solid #c9a074;border-radius:3px;color:#fff;font-weight:700;text-decoration:none}
+.line-band a:hover,.line-band a:focus-visible{background:#8a6540}
+@media(min-width:768px){.line-band{padding-bottom:28px}.line-band img{display:block}}
+@media print{.line-band{display:none!important}}
