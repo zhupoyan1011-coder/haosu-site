@@ -7,11 +7,28 @@
 <meta name="description" content="伊亞咖啡民宿位於台東舊鐵道步道旁，地中海白牆藍窗，一樓是咖啡館。八間主題客房，住客每天一杯現做飲品，步行可到鐵花村與觀光夜市。">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F6F2EA">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="伊亞咖啡民宿 Oia Cafe B&amp;B">
+<meta property="og:title" content="伊亞咖啡民宿｜台東舊鐵道旁的地中海民宿">
+<meta property="og:description" content="白牆藍窗，一樓是咖啡館。八間主題客房，步行可到鐵花村與觀光夜市。">
+<meta property="og:image" content="https://oiacafe-redesign.pages.dev/img/slide_11.webp">
+<meta property="og:image:alt" content="傍晚亮起燈的伊亞咖啡民宿外觀">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script>
+/* 開場動畫每個瀏覽階段只播一次；選「減少動態效果」時不播 */
+(function (h) {
+  h.classList.add('js');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try { if (!reduce && !sessionStorage.getItem('oia-intro')) { h.classList.add('intro'); sessionStorage.setItem('oia-intro', '1'); } } catch (e) {}
+})(document.documentElement);
+</script>
+<noscript><style>.loader{display:none}.reveal,.reveal-group>*,.hero__kicker,.hero__cta,.hero__facts li{opacity:1!important;transform:none!important}.reveal-lines .rl>span,.line>span{transform:none!important}.hero__en{opacity:.9!important}.hero__media{clip-path:none!important}.reveal-img img{clip-path:none!important;transform:none!important}</style></noscript>
 </head>
 <body class="is-loading">
 
@@ -24,6 +41,7 @@
 </div>
 
 <header class="bar" id="top">
+  <span class="bar__progress" aria-hidden="true"></span>
   <a class="bar__brand" href="#top" aria-label="伊亞咖啡民宿 回到頂端">
     <span class="bar__oia">Oia</span>
     <span class="bar__zh">伊亞咖啡民宿</span>
@@ -35,7 +53,7 @@
     <a href="#stay">住宿須知</a>
     <a href="#access">交通</a>
   </nav>
-  <a class="btn btn--solid bar__book" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">線上訂房</a>
+  <a class="btn btn--solid bar__book" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">線上訂房</a>
   <button class="bar__menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><em>選單</em></button>
 </header>
 
@@ -48,7 +66,7 @@
     <a href="#stay"><small>05</small>住宿須知</a>
     <a href="#access"><small>06</small>交通</a>
   </nav>
-  <a class="btn btn--solid" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">線上訂房</a>
+  <a class="btn btn--solid" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">線上訂房</a>
 </div>
 
 <!-- railway progress rail (desktop) -->
@@ -81,7 +99,7 @@
     <p class="hero__en">Oia Cafe <i>&amp;</i> B&amp;B — a whitewashed house by Taitung's old railway</p>
     <div class="hero__cta">
       <a class="btn btn--light" href="#rooms">看八間客房</a>
-      <a class="btn btn--ghost" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">查空房・訂房 ↗</a>
+      <a class="btn btn--ghost" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">查空房・訂房 ↗</a>
     </div>
   </div>
   <ul class="hero__facts">
@@ -109,9 +127,9 @@
   <div class="about__grid">
     <div class="about__text">
       <h2 class="h2 reveal-lines">一樓是咖啡香，<br>樓上是睡得很好的夜。</h2>
-      <p class="lead reveal">伊亞的名字，來自希臘聖托里尼最美的小鎮 Oia。2004 年，我們在台東舊鐵道旁蓋了這棟白牆藍窗的房子，2011 年重新整修，把地中海的清爽，和台東午後那種橘黃色的溫度，放在同一個屋簷下。</p>
+      <p class="lead reveal">伊亞的名字，來自希臘聖托里尼最美的小鎮 Oia。2004 年 12 月，伊亞在台東舊鐵道旁落腳，2011 年重新整修，把地中海的清爽，和台東午後那種橘黃色的溫度，放在同一個屋簷下。</p>
       <dl class="about__nums reveal">
-        <div><dt>2004</dt><dd>落成</dd></div>
+        <div><dt>2004</dt><dd>在台東落腳</dd></div>
         <div><dt>2011</dt><dd>重新整修</dd></div>
         <div><dt>No.172</dt><dd>台東合法民宿</dd></div>
       </dl>
@@ -139,16 +157,17 @@
 
   <div class="finder reveal" role="group" aria-label="篩選客房">
     <span class="finder__label">我想要</span>
-    <button class="chip is-on" data-filter="all">全部房型</button>
-    <button class="chip" data-filter="two">兩人小旅行</button>
-    <button class="chip" data-filter="family">四人家庭</button>
-    <button class="chip" data-filter="bath">泡個澡</button>
-    <button class="chip" data-filter="stars">看星星</button>
-    <button class="chip" data-filter="play">玩一點</button>
+    <button class="chip is-on" data-filter="all" aria-pressed="true">全部房型</button>
+    <button class="chip" data-filter="two" aria-pressed="false">兩人小旅行</button>
+    <button class="chip" data-filter="family" aria-pressed="false">四人家庭</button>
+    <button class="chip" data-filter="bath" aria-pressed="false">泡個澡</button>
+    <button class="chip" data-filter="stars" aria-pressed="false">看星星</button>
+    <button class="chip" data-filter="play" aria-pressed="false">玩一點</button>
   </div>
 
+  <p class="rooms__count" id="rooms-count" aria-live="polite">共 8 間</p>
   <ol class="roomlist" id="roomlist"></ol>
-  <p class="rooms__note">房價、加床與即時空房以<a href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">線上訂房系統</a>為準。</p>
+  <p class="rooms__note">房價、加床與即時空房以<a href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">線上訂房系統</a>為準，農曆年期間房價另訂。</p>
   <div class="cursor-preview" aria-hidden="true"><img alt=""></div>
 </section>
 
@@ -156,7 +175,7 @@
 <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" hidden>
   <div class="panel__scrim" data-close></div>
   <article class="panel__body">
-    <button class="panel__close" data-close aria-label="關閉">關閉 <span>×</span></button>
+    <button class="panel__close" type="button" data-close aria-label="關閉">關閉 <span>×</span></button>
     <div class="panel__gallery">
       <div class="panel__stage ph" data-ph="客房"><img alt="" referrerpolicy="no-referrer"></div>
       <div class="panel__ctrl">
@@ -173,7 +192,7 @@
       <p class="panel__desc"></p>
       <dl class="panel__spec"></dl>
       <ul class="panel__tags"></ul>
-      <a class="btn btn--solid" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">查詢這間的空房 ↗</a>
+      <a class="btn btn--solid" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">查詢這間的空房 ↗</a>
     </div>
   </article>
 </div>
@@ -198,7 +217,7 @@
       <h3>住客專屬</h3>
       <ul>
         <li><b>每日一杯</b>現做飲品免費兌換<small>美式咖啡、現打草莓牛奶、歐式茶飲等</small></li>
-        <li><b>8 折</b>在館內用餐</li>
+        <li><b>8 折</b>在館內用餐<small>房價不含早餐</small></li>
       </ul>
     </div>
 
@@ -221,18 +240,19 @@
     <header class="gallery__head">
       <p class="stop"><span>Stop 04</span>光影記事</p>
       <h2 class="h2">伊亞的<br>光與影。</h2>
-      <div class="tabs" role="tablist">
-        <button role="tab" class="is-on" data-set="env" aria-selected="true">館外</button>
-        <button role="tab" data-set="spac" aria-selected="false">館內</button>
-        <button role="tab" data-set="room" aria-selected="false">客房</button>
+      <div class="tabs" role="tablist" aria-label="照片分類">
+        <span class="tabs__pill" aria-hidden="true"></span>
+        <button role="tab" type="button" class="is-on" data-set="env" aria-selected="true">館外</button>
+        <button role="tab" type="button" data-set="spac" aria-selected="false" tabindex="-1">館內</button>
+        <button role="tab" type="button" data-set="room" aria-selected="false" tabindex="-1">客房</button>
       </div>
-      <p class="gallery__hint">點照片放大</p>
+      <p class="gallery__hint"><span class="gallery__count" aria-hidden="true">01 / 06</span>點照片放大</p>
     </header>
     <div class="gallery__track" id="track"></div>
   </div>
 </section>
 
-<div class="lightbox" id="lightbox" hidden>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="照片放大檢視" hidden>
   <button class="lightbox__close" data-lb-close aria-label="關閉">×</button>
   <button class="lightbox__nav lightbox__nav--prev" data-lb="-1" aria-label="上一張">←</button>
   <figure class="ph" data-ph="伊亞"><img alt="" referrerpolicy="no-referrer"></figure>
@@ -251,7 +271,7 @@
       <span role="columnheader">項目</span><span role="columnheader">時間・內容</span><span role="columnheader">備註</span>
     </div>
     <div class="board__row" role="row">
-      <span role="cell">入住 Check-in</span><span role="cell" class="board__t" data-flap="15:00">15:00</span><span role="cell">最晚 22:00 辦理；晚到請先來電告知</span>
+      <span role="cell">入住 Check-in</span><span role="cell" class="board__t" data-flap="15:00">15:00</span><span role="cell">最晚 22:00 辦理；晚到請先來電告知 <a href="tel:+88689333010">089-333-010</a></span>
     </div>
     <div class="board__row" role="row">
       <span role="cell">退房 Check-out</span><span role="cell" class="board__t" data-flap="11:00">11:00</span><span role="cell">行李可詢問櫃檯協助</span>
@@ -260,7 +280,7 @@
       <span role="cell">櫃檯 Front desk</span><span role="cell" class="board__t" data-flap="15–23">15–23</span><span role="cell">15:00 至 23:00</span>
     </div>
     <div class="board__row" role="row">
-      <span role="cell">早晨 Morning</span><span role="cell" class="board__t" data-flap="1 CUP">1 CUP</span><span role="cell">一樓咖啡館，每位住客每日一杯現做飲品</span>
+      <span role="cell">早晨 Morning</span><span role="cell" class="board__t" data-flap="1 CUP">1 CUP</span><span role="cell">一樓咖啡館，每位住客每日一杯現做飲品；房價不含早餐，住客用餐享 8 折</span>
     </div>
     <div class="board__row" role="row">
       <span role="cell">接送 Airport</span><span role="cell" class="board__t" data-flap="D-1">D-1</span><span role="cell">機場接送請於入住前一天預約</span>
@@ -273,6 +293,12 @@
     </div>
     <div class="board__row" role="row">
       <span role="cell">公共區 Lounge</span><span role="cell" class="board__t" data-flap="24H">24H</span><span role="cell">大型冰箱、冷凍空間、免費瓶裝水</span>
+    </div>
+    <div class="board__row" role="row">
+      <span role="cell">房內 In-room</span><span role="cell" class="board__t" data-flap="WIFI">WIFI</span><span role="cell">吹風機、無線網路、空調、電視</span>
+    </div>
+    <div class="board__row" role="row">
+      <span role="cell">寵物 Pets</span><span role="cell" class="board__t" data-flap="NO">NO</span><span role="cell">謝絕攜帶寵物入住</span>
     </div>
   </div>
 </section>
@@ -296,7 +322,8 @@
     <div class="line-map reveal" aria-label="伊亞周邊距離">
       <svg viewBox="0 0 520 360" class="line-map__svg" aria-hidden="true">
         <path class="lm-rail" d="M20 300 C 140 300, 160 180, 260 180 S 400 60, 500 60"/>
-        <path class="lm-rail lm-rail--draw" d="M20 300 C 140 300, 160 180, 260 180 S 400 60, 500 60"/>
+        <path class="lm-rail lm-rail--draw" id="lm-path" d="M20 300 C 140 300, 160 180, 260 180 S 400 60, 500 60"/>
+        <circle class="lm-train" r="6"><animateMotion id="lm-run" dur="7s" repeatCount="indefinite" begin="indefinite" rotate="auto"><mpath href="#lm-path"/></animateMotion></circle>
       </svg>
       <ol class="line-map__stops">
         <li style="--x:4%;--y:83%"><b>機場</b><span>3.4 km・車程約 12 分</span></li>
@@ -318,10 +345,11 @@
     <p class="finale__en">See you in Oia.</p>
     <h2 class="finale__title reveal-lines">訂一晚，<br>在伊亞醒來。</h2>
     <div class="finale__cta reveal">
-      <a class="btn btn--light btn--lg" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">線上訂房 ↗</a>
+      <a class="btn btn--light btn--lg" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">線上訂房 ↗</a>
     </div>
     <ul class="finale__contact reveal">
-      <li><span>LINE</span><figure class="qr ph" data-ph="LINE"><img src="img/line-qr.png" alt="伊亞 LINE QR code" loading="lazy"></figure></li>
+      <li><span>訂房電話</span><a href="tel:+88689333010">089-333-010</a></li>
+      <li><span>LINE</span><figure class="qr ph" data-ph="LINE"><img src="img/line-qr.png" alt="伊亞 LINE 的 QR code" loading="lazy"></figure><em class="finale__id">ID：oiacafe</em></li>
       <li><span>Facebook</span><a href="https://www.facebook.com/oiacafeBNB" target="_blank" rel="noopener">oiacafeBNB ↗</a></li>
       <li><span>Email</span><a href="mailto:oia.cafe@msa.hinet.net">oia.cafe@msa.hinet.net</a></li>
     </ul>
@@ -339,7 +367,7 @@
 <!-- sticky mobile booking bar -->
 <div class="mbook">
   <a href="#rooms">看客房</a>
-  <a class="mbook__main" href="http://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW#top" target="_blank" rel="noopener">線上訂房</a>
+  <a class="mbook__main" href="https://wrs.ec-hotel.net/wep4webhotel/webhotel/0243/hotel/showProductRoomList.action?locale=zh_TW" target="_blank" rel="noopener">線上訂房</a>
 </div>
 
 <script src="assets/main.js" defer></script>
