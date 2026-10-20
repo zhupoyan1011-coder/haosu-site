@@ -377,6 +377,7 @@ body.is-ready .hero__facts li{opacity:1;transform:none}
   .bar{gap:10px;padding-top:14px;padding-bottom:14px}
   .bar__zh{display:none}
   .bar__book{display:none}
+  .hero__media img{object-position:80% 50%}
   .hero__facts{grid-template-columns:1fr 1fr;gap:16px 0;padding-top:18px;padding-bottom:22px}
   .hero__facts b{font-size:18px}
   .hero__inner{padding-bottom:24px}

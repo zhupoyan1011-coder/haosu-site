@@ -1,7 +1,7 @@
 /* Oia Cafe B&B — redesign interactions */
 (() => {
-  const IMG = 'https://www.oiacafe.com/img/';
-  const THUMB = 'https://www.oiacafe.com/thumb/';
+  const IMG = 'img/';
+  const THUMB = 'img/thumb/';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = () => matchMedia('(min-width: 821px)').matches;
   const $ = (s, el = document) => el.querySelector(s);
@@ -14,40 +14,40 @@
     { name: '伊亞房', en: 'Oia', line: '與民宿同名，最有聖托里尼味道的一間',
       desc: '白牆、藍窗與木質的溫度，像把伊亞小鎮的一角搬進台東。',
       size: null, ppl: null, tags: [], filters: [],
-      photos: ['oia.jpg', ...range(3, 9).map(n => `roomoia_${n}.jpg`)] },
+      photos: ['oia.webp', ...range(3, 9).map(n => `roomoia_${n}.webp`)] },
     { name: '希臘公主房', en: 'Greek Princess', line: '雙洗手檯與浴缸，慢慢梳妝的房',
       desc: '公主風格的寬敞雙人房，浴室有雙洗手檯與浴缸，兩個人早上不用搶鏡子。',
       size: 28, ppl: 2, tags: ['浴缸', '雙洗手檯'], filters: ['two', 'bath'],
-      photos: ['princess.jpg', ...range(2, 7).map(n => `roomprim_${n}.jpg`)] },
+      photos: ['princess.webp', ...range(2, 7).map(n => `roomprim_${n}.webp`)] },
     { name: '雅典星空房', en: 'Athens Starlight', line: '天花板有一扇觀星窗',
       desc: '關燈之後抬頭，天花板的觀星窗就是今晚的夜空。適合想安靜一點的兩個人。',
       size: 20, ppl: 2, tags: ['觀星窗'], filters: ['two', 'stars'],
-      photos: ['sky.jpg', ...range(2, 7).map(n => `roomsky_${n}.jpg`)] },
+      photos: ['sky.webp', ...[2, 3, 4, 5, 7].map(n => `roomsky_${n}.webp`)] },
     { name: '橘子汽水', en: 'Orange Soda', line: '整間橘色調，甜甜的情侶房',
       desc: '明亮的橘色調房間，衛浴以薄拉簾區隔，比較適合情侶或夫妻入住。',
       size: 22, ppl: 2, tags: ['橘色調', '拉簾式衛浴'], filters: ['two'],
-      photos: ['2room/1a_room.jpg', ...range(1, 8).map(n => `2room/1a_room_${n}.jpg`)] },
+      photos: ['2room/1a_room.webp', ...range(1, 8).map(n => `2room/1a_room_${n}.webp`)] },
     { name: '咖啡因中毒', en: 'Caffeine Overdose', line: '給離不開咖啡的人',
       desc: '以咖啡為主題的房間，樓下就是咖啡館，名副其實。',
       size: null, ppl: null, tags: [], filters: [],
-      photos: ['2room/2a_room.jpg', ...range(1, 7).map(n => `2room/2a_room_${n}.jpg`)] },
+      photos: ['2room/2a_room.webp', ...range(1, 7).map(n => `2room/2a_room_${n}.webp`)] },
     { name: '陽光優格', en: 'Sunny Yogurt', line: '兩張雙人床＋大浴缸的家庭房',
       desc: '伊亞最大的房型，兩張雙人床與大浴缸，一家四口或好友同行都住得開。',
       size: 36, ppl: 4, tags: ['兩張雙人床', '大浴缸', '家庭'], filters: ['family', 'bath'],
-      photos: ['2room/2b_room.jpg', ...range(1, 13).map(n => `2room/2b_room_${n}.jpg`)] },
+      photos: ['2room/2b_room.webp', ...range(1, 13).map(n => `2room/2b_room_${n}.webp`)] },
     { name: '黑色螺絲釘', en: 'Black Screw', line: '黑色調、帶點工業感的房',
       desc: '以黑色為主調的主題房，和白色的伊亞形成對比。',
       size: null, ppl: null, tags: [], filters: [],
-      photos: ['2room/3a_room.jpg', ...range(1, 11).map(n => `2room/3a_room_${n}.jpg`)] },
+      photos: ['2room/3a_room.webp', ...range(1, 11).map(n => `2room/3a_room_${n}.webp`)] },
     { name: 'XO白蘭地', en: 'XO Brandy', line: '寬敞，還有彈珠台或街機可以玩',
       desc: '空間寬敞的雙人房，部分房間放了彈珠台或街機，住一晚像回到小時候。',
       size: 32, ppl: 2, tags: ['彈珠台／街機', '寬敞'], filters: ['two', 'play'],
-      photos: ['2room/3b_room.jpg', ...range(1, 9).map(n => `2room/3b_room_${n}.jpg`)] },
+      photos: ['2room/3b_room.webp', ...range(1, 8).map(n => `2room/3b_room_${n}.webp`)] },
   ];
   const GALLERY = {
-    env: { label: '館外', files: range(1, 6).map(n => `env_${n}.jpg`) },
-    spac: { label: '館內', files: [0, 1, 3, 4, 5, 6, 8, 9, 10, 13, 14, 15].map(n => `spac_${n}.jpg`) },
-    room: { label: '客房', files: range(1, 9).map(n => `room_${n}.jpg`) },
+    env: { label: '館外', files: range(1, 6).map(n => `env_${n}.webp`) },
+    spac: { label: '館內', files: [0, 1, 3, 4, 5, 6, 8, 9, 10, 14].map(n => `spac_${n}.webp`) },
+    room: { label: '客房', files: range(1, 9).map(n => `room_${n}.webp`) },
   };
 
   /* ---------- image fallback: try alt source, then show a tinted placeholder ---------- */
