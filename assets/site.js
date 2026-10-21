@@ -1,7 +1,7 @@
 // 留燈設計工作室 — page behaviour
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
-  line: 'benben951011',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
+  line: '@715sdwme',   // studio LINE Official Account (starts with @); a personal ID without @ also works; the "add my LINE" button stays hidden while empty
   email: 'liudengsheji@gmail.com',
   quoteUrl: 'https://script.google.com/macros/s/AKfycbwCWvaggQ5gy0VAYnm-k3r-jyooy4HEobbxKQr5ht_n-Co9JgGkmaae_QAG7T12EbYT/exec'  // Google Apps Script web app that saves quotes to Ben's sheet and emails the studio inbox
 };
@@ -139,7 +139,11 @@ var CONTACT = {
         '登記證號：' + ((f.get('license') || '').trim() || '（未填）') + '\n' +
         '想說的話：' + ((f.get('message') || '').trim() || '（無）');
     };
-    if (CONTACT.line) { line.href = 'https://line.me/ti/p/~' + CONTACT.line.replace(/^@/, ''); line.hidden = false; }
+    if (CONTACT.line) {
+      // official accounts open with /R/ti/p/@id, personal accounts with /ti/p/~id
+      line.href = CONTACT.line.charAt(0) === '@' ? 'https://line.me/R/ti/p/' + CONTACT.line : 'https://line.me/ti/p/~' + CONTACT.line;
+      line.hidden = false;
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var name = $('#q-name'), reach = $('#q-reach');
