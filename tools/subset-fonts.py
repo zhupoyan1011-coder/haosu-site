@@ -6,7 +6,8 @@ from fontTools.ttLib import TTFont
 
 root = pathlib.Path(__file__).resolve().parent.parent
 text = set(chr(c) for c in range(0x20, 0x7f))
-for p in list(root.glob('*.html')) + list((root / 'assets').glob('*.js')):
+for p in list(root.glob('*.html')) + list((root / 'assets').glob('*.js')) \
+        + list((root / 'demos').glob('**/*.html')) + list((root / 'demos').glob('**/*.js')):
     text |= set(p.read_text(encoding='utf-8'))
 text = ''.join(sorted(text))
 
