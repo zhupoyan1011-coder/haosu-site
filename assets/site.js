@@ -1,4 +1,4 @@
-// 好宿設計工作室 — page behaviour
+// 留燈設計工作室 — page behaviour
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
   line: '',   // LINE ID, e.g. 'haosu' or '@haosu' for an official account
