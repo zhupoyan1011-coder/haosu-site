@@ -2,7 +2,8 @@
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
   line: 'benben951011',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
-  email: 'liudengsheji@gmail.com'
+  email: 'liudengsheji@gmail.com',
+  quoteUrl: 'https://script.google.com/macros/s/AKfycbwCWvaggQ5gy0VAYnm-k3r-jyooy4HEobbxKQr5ht_n-Co9JgGkmaae_QAG7T12EbYT/exec'  // Google Apps Script web app that saves quotes to Ben's sheet and emails the studio inbox
 };
 
 (function () {
@@ -115,7 +116,7 @@ var CONTACT = {
     }, { passive: true });
   }
 
-  // ---- quote form: emails the quote via FormSubmit, then shows a quote number to paste on LINE ----
+  // ---- quote form: posts the quote to Ben's Google Sheet script, then shows a quote number to paste on LINE ----
   var form = $('#inquiry');
   if (form) {
     var send = $('#q-send'), done = $('#q-done'), msgEl = $('#q-msg'), line = $('#q-line'), copy = $('#q-copy'), note = $('#q-note');
@@ -166,16 +167,13 @@ var CONTACT = {
           note.appendChild(a); note.appendChild(document.createTextNode('。'));
         }
       };
-      fetch('https://formsubmit.co/ajax/' + CONTACT.email, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: '留燈估價單 ' + code + '｜' + f.get('name').trim(),
-          _template: 'box',
-          _captcha: 'false',
-          '估價單': text
-        })
-      }).then(function (r) { return r.json().then(function (j) { finish(r.ok && String(j.success) === 'true'); }); })
+      if (!CONTACT.quoteUrl) { finish(false); return; }
+      var body = new URLSearchParams();
+      body.append('code', code);
+      ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, (f.get(k) || '').trim()); });
+      fetch(CONTACT.quoteUrl, { method: 'POST', body: body })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { finish(j && j.success === true); })
         .catch(function () { finish(false); });
     });
     copy.addEventListener('click', function () {
