@@ -2,7 +2,7 @@
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
   line: '',   // LINE ID, e.g. 'haosu' or '@haosu' for an official account
-  email: ''   // e.g. 'hello@haosu.studio'
+  email: 'liudengsheji@gmail.com'
 };
 
 (function () {
@@ -138,6 +138,7 @@ var CONTACT = {
       msgEl.textContent = text;
       var lu = lineUrl(text);
       line.href = lu || '#'; line.setAttribute('aria-disabled', !lu);
+      line.style.display = CONTACT.line ? '' : 'none';
       mail.href = CONTACT.email ? 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('民宿官網詢問') + '&body=' + encodeURIComponent(text) : '#';
       mail.setAttribute('aria-disabled', !CONTACT.email);
       if (!CONTACT.line && !CONTACT.email) note.textContent = '聯絡管道即將開放，可先複製訊息。';
