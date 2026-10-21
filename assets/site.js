@@ -1,7 +1,7 @@
 // 留燈設計工作室 — page behaviour
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
-  line: '',   // LINE ID, e.g. 'haosu' or '@haosu' for an official account
+  line: '',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
   email: 'liudengsheji@gmail.com'
 };
 
@@ -73,10 +73,10 @@ var CONTACT = {
   }
 
   // ---- compare tabs ----
+  // sources: /mnt/project-files/notes/比較表草稿與來源.md (checked 2026-10)
   var DATA = {
-    agency: { name: '大型設計公司', price: 'NT$10 萬起', speed: '2–3 個月', fit: '通用模板，要自己解釋', after: '另外收費' },
-    saas:   { name: '自助建站平台', price: '月租，長期累積', speed: '快，但要自己做', fit: '模板通用', after: '只有客服中心' },
-    free:   { name: '一般接案設計師', price: '因人而異', speed: '因人而異', fit: '大多不專精', after: '不一定找得到人' }
+    agency: { name: '一般設計公司', price: '形象官網中位數約 NT$26,000；半客製中位數約 NT$50,800', yearly: '主機約 NT$3,000–8,000／年；民宿小站年費實例 NT$6,000–8,800', move: '依各家合約而定' },
+    saas:   { name: '架站平台', price: '平台不收製作費，要自己動手做；請人代做另外計價', yearly: '要每年付平台方案費，例如台灣代理商公開的一個方案為 NT$16,000／年', move: '平台官方說明：網站必須在它的主機上運作，不能搬到別的主機' }
   };
   var tabs = $$('.tabs [role="tab"]'), ink = $('.tab-ink'), cmp = $('#cmp');
   tabs.forEach(function (tab, i) {
@@ -115,42 +115,73 @@ var CONTACT = {
     }, { passive: true });
   }
 
-  // ---- inquiry builder ----
+  // ---- quote form: emails the quote via FormSubmit, then shows a quote number to paste on LINE ----
   var form = $('#inquiry');
   if (form) {
-    var msgEl = $('#q-msg'), line = $('#q-line'), mail = $('#q-mail'), copy = $('#q-copy'), note = $('#q-note');
-    var build = function () {
-      var f = new FormData(form), name = (f.get('name') || '').trim();
-      return '你好，我想了解民宿官網。\n' +
-        (name ? '民宿：' + name + '\n' : '') +
-        '偏好風格：' + f.get('style') + '\n' +
-        '目前狀況：' + f.get('site');
+    var send = $('#q-send'), done = $('#q-done'), msgEl = $('#q-msg'), line = $('#q-line'), copy = $('#q-copy'), note = $('#q-note');
+    var code = '';
+    var newCode = function () {
+      var d = new Date(), pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      var abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r = '';
+      for (var i = 0; i < 4; i++) r += abc.charAt(Math.floor(Math.random() * abc.length));
+      return 'LD-' + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' + r;
     };
-    var lineUrl = function (text) {
-      if (!CONTACT.line) return '';
-      var id = CONTACT.line.replace(/^@/, '');
-      return CONTACT.line.charAt(0) === '@'
-        ? 'https://line.me/R/oaMessage/@' + id + '/?' + encodeURIComponent(text)
-        : 'https://line.me/ti/p/~' + id;
+    var build = function (f) {
+      return '估價單編號：' + code + '\n' +
+        '民宿／暱稱：' + f.get('name').trim() + '\n' +
+        '聯絡方式：' + f.get('reach').trim() + '\n' +
+        '方案：' + f.get('plan') + '\n' +
+        '風格：' + f.get('style') + '\n' +
+        '上線時間：' + f.get('speed') + '\n' +
+        '目前狀況：' + f.get('site') + '\n' +
+        '想說的話：' + ((f.get('message') || '').trim() || '（無）');
     };
-    var update = function () {
-      var text = build();
-      msgEl.textContent = text;
-      var lu = lineUrl(text);
-      line.href = lu || '#'; line.setAttribute('aria-disabled', !lu);
-      line.style.display = CONTACT.line ? '' : 'none';
-      mail.href = CONTACT.email ? 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('民宿官網詢問') + '&body=' + encodeURIComponent(text) : '#';
-      mail.setAttribute('aria-disabled', !CONTACT.email);
-      if (!CONTACT.line && !CONTACT.email) note.textContent = '聯絡管道即將開放，可先複製訊息。';
-    };
-    form.addEventListener('input', update);
-    form.addEventListener('change', update);
-    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    if (CONTACT.line) { line.href = 'https://line.me/ti/p/~' + CONTACT.line.replace(/^@/, ''); line.hidden = false; }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = $('#q-name'), reach = $('#q-reach');
+      [name, reach].forEach(function (el) { el.classList.add('touched'); });
+      if (!name.value.trim() || !reach.value.trim()) {
+        note.textContent = '請填寫民宿名稱或暱稱，以及聯絡方式。';
+        (name.value.trim() ? reach : name).focus();
+        return;
+      }
+      code = newCode();
+      var f = new FormData(form), text = build(f);
+      send.disabled = true; send.textContent = '送出中…';
+      var finish = function (ok) {
+        send.disabled = false; send.textContent = '送出估價單';
+        if (ok) {
+          msgEl.textContent = '你的估價單編號是 ' + code + '。' +
+            (CONTACT.line ? '請加我們的 LINE，並把這個編號傳給我們，方便對照你的估價單。' : '請把這個編號記下來，我們聯絡你時會用它對照估價單。') +
+            '我們會盡快回覆。';
+          done.hidden = false; send.hidden = true;
+          note.textContent = '';
+          done.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        } else {
+          var mail = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('估價單 ' + code) + '&body=' + encodeURIComponent(text);
+          note.innerHTML = '';
+          note.appendChild(document.createTextNode('送出失敗，可能是網路不穩。你可以再試一次，或'));
+          var a = document.createElement('a'); a.href = mail; a.textContent = '改用 Email 寄出'; a.style.textDecoration = 'underline';
+          note.appendChild(a); note.appendChild(document.createTextNode('。'));
+        }
+      };
+      fetch('https://formsubmit.co/ajax/' + CONTACT.email, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: '留燈估價單 ' + code + '｜' + f.get('name').trim(),
+          _template: 'box',
+          _captcha: 'false',
+          '估價單': text
+        })
+      }).then(function (r) { return r.json().then(function (j) { finish(r.ok && String(j.success) === 'true'); }); })
+        .catch(function () { finish(false); });
+    });
     copy.addEventListener('click', function () {
-      var text = build();
-      var done = function () { note.textContent = '已複製，貼到 LINE 或 Email 即可。'; };
-      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
-      else { fallback(text); done(); }
+      var ok = function () { note.textContent = '已複製編號 ' + code + '。'; };
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, function () { fallback(code); ok(); });
+      else { fallback(code); ok(); }
     });
     var fallback = function (text) {
       var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
@@ -158,6 +189,5 @@ var CONTACT = {
       try { document.execCommand('copy'); } catch (e) {}
       document.body.removeChild(ta);
     };
-    update();
   }
 })();
