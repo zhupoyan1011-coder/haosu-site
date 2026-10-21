@@ -1,0 +1,70 @@
+name: Monthly site check
+
+# On the 1st of each month (10:00 Taiwan time) check that the live site and the quote form still work.
+# The form check sends one row marked 測試 to the quote sheet. If anything fails, this run turns red
+# and opens an issue so Ben gets an email from GitHub.
+on:
+  schedule:
+    - cron: '0 2 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      SITE: https://liudeng.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pages open and show the right content
+        run: |
+          fail=0
+          check() {
+            body=$(curl -sSL --max-time 30 -w '\n%{http_code}' "$SITE$1") || { echo "::error::$1 打不開"; fail=1; return; }
+            code=$(printf '%s' "$body" | tail -n1)
+            if [ "$code" != "200" ]; then echo "::error::$1 回應 $code"; fail=1; return; fi
+            if ! printf '%s' "$body" | grep -q "$2"; then echo "::error::$1 找不到「$2」"; fail=1; return; fi
+            echo "ok $1"
+          }
+          check /                       '網站和網域'
+          check /privacy                '隱私權政策'
+          check /terms                  '服務條款'
+          check /notes/site-checklist   '檢查清單'
+          check /notes/domain           '網域是什麼'
+          check /demos/yohaku/          '示範作品，民宿為虛構'
+          check /demos/sugima/          '示範作品，民宿為虛構'
+          check /demos/enko/            '示範作品，民宿為虛構'
+          check /assets/site.js         'quoteUrl'
+          exit $fail
+
+      - name: Quote form saves a test row
+        run: |
+          url=$(grep -oE "https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec" assets/site.js | head -n1)
+          [ -n "$url" ] || { echo "::error::assets/site.js 裡找不到估價單網址"; exit 1; }
+          code="TEST-$(TZ=Asia/Taipei date +%Y%m)"
+          res=$(curl -sSL --max-time 60 "$url" \
+            --data-urlencode "code=$code" \
+            --data-urlencode "name=測試（每月自動檢查，可刪除）" \
+            --data-urlencode "reach=測試" \
+            --data-urlencode "plan=測試" \
+            --data-urlencode "style=測試" \
+            --data-urlencode "speed=測試" \
+            --data-urlencode "site=測試" \
+            --data-urlencode "message=這是每月 1 號的自動檢查，確認估價單還能正常送出。" \
+            --data-urlencode "website=") || { echo "::error::估價單連不上"; exit 1; }
+          echo "$res"
+          echo "$res" | grep -qE '"success": ?true' || { echo "::error::估價單沒有回覆成功"; exit 1; }
+
+      - name: Open an issue when something failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "每月自動檢查失敗（$(TZ=Asia/Taipei date +%Y-%m-%d)）" \
+            --body "留燈網站或估價單的每月檢查沒有通過。點這裡看哪一項失敗：$RUN_URL"

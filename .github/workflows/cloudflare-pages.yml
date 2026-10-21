@@ -17,7 +17,7 @@ jobs:
       - name: Collect site files
         run: |
           mkdir dist
-          cp -r *.html *.svg *.png *.jpg *.txt *.xml *.webmanifest _headers assets demos dist/
+          cp -r *.html *.svg *.png *.jpg *.txt *.xml *.webmanifest _headers assets demos notes dist/
       - name: Resolve account
         run: |
           # wrangler picks the token's only account when no ID is given

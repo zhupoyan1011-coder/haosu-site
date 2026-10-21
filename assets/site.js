@@ -74,9 +74,9 @@ var CONTACT = {
   }
 
   // ---- compare tabs ----
-  // sources: /mnt/project-files/notes/比較表草稿與來源.md (checked 2026-10)
+  // sources: /mnt/project-files/notes/比較表草稿與來源.md (rechecked 2026-10-21)
   var DATA = {
-    agency: { name: '一般設計公司', price: '形象官網中位數約 NT$26,000；半客製中位數約 NT$50,800', yearly: '主機約 NT$3,000–8,000／年；民宿小站年費實例 NT$6,000–8,800', move: '依各家合約而定' },
+    agency: { name: '一般設計公司', price: '形象官網中位數約 NT$26,000；半客製中位數約 NT$50,800（含製作與第一年費用）', yearly: '主機約 NT$3,000–8,000／年（依各家方案）', move: '依各家合約而定' },
     saas:   { name: '架站平台', price: '平台不收製作費，要自己動手做；請人代做另外計價', yearly: '要每年付平台方案費，例如台灣代理商公開的一個方案為 NT$16,000／年', move: '平台官方說明：網站必須在它的主機上運作，不能搬到別的主機' }
   };
   var tabs = $$('.tabs [role="tab"]'), ink = $('.tab-ink'), cmp = $('#cmp');
@@ -135,6 +135,7 @@ var CONTACT = {
         '風格：' + f.get('style') + '\n' +
         '上線時間：' + f.get('speed') + '\n' +
         '目前狀況：' + f.get('site') + '\n' +
+        '網站網址：' + ((f.get('url') || '').trim() || '（無）') + '\n' +
         '想說的話：' + ((f.get('message') || '').trim() || '（無）');
     };
     if (CONTACT.line) { line.href = 'https://line.me/ti/p/~' + CONTACT.line.replace(/^@/, ''); line.hidden = false; }
@@ -170,6 +171,9 @@ var CONTACT = {
       if (!CONTACT.quoteUrl) { finish(false); return; }
       var body = new URLSearchParams();
       body.append('code', code);
+      // the sheet script has no URL column, so the site address rides along in the message
+      var url = (f.get('url') || '').trim(), msg = (f.get('message') || '').trim();
+      if (url) f.set('message', (msg ? msg + '｜' : '') + '網址：' + url);
       ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, (f.get(k) || '').trim()); });
       fetch(CONTACT.quoteUrl, { method: 'POST', body: body })
         .then(function (r) { return r.json(); })

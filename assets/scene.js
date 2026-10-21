@@ -99,10 +99,19 @@
     });
     scenes.forEach(function (s) { s.draw(); });
     if (reduce || window.HAOSU_STATIC) return;
-    var last = performance.now();
+    // the drift is slow, so 30 fps looks the same as 60 and costs half; if a device still can't keep up
+    // during the first seconds, keep the last frame as a still picture instead of stuttering
+    var last = performance.now(), frames = 0, busy = 0;
     (function loop(now) {
-      var dt = Math.min(64, now - last); last = now;
-      if (!document.hidden) scenes.forEach(function (s) { if (s.visible) { s.t += dt; s.draw(); } });
+      var dt = now - last;
+      if (dt < 30) { requestAnimationFrame(loop); return; }
+      last = now;
+      if (!document.hidden && scenes.some(function (s) { return s.visible; })) {
+        var t0 = performance.now();
+        scenes.forEach(function (s) { if (s.visible) { s.t += Math.min(64, dt); s.draw(); } });
+        if (frames < 60) { frames++; busy += performance.now() - t0 + Math.max(0, dt - 50); }
+        if (frames >= 15 && frames <= 60 && busy / frames > 16) return;
+      }
       requestAnimationFrame(loop);
     })(last);
   }
