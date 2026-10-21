@@ -236,7 +236,7 @@
     </div>
     <ol class="steps" id="steps">
       <li><span class="n">01</span><h3>估價單</h3><p>在網站填寫估價單，送出後加 LINE，傳上估價單編號。</p></li>
-      <li><span class="n">02</span><h3>報價簽約</h3><p>書面報價與合約確認後，轉帳支付 50% 訂金。</p></li>
+      <li><span class="n">02</span><h3>報價簽約</h3><p>確認民宿登記證號、書面報價與合約後，轉帳支付 50% 訂金。</p></li>
       <li><span class="n">03</span><h3>素材</h3><p>照片由你提供；回答約 10 個問題，我們改寫成網站文案。</p></li>
       <li><span class="n">04</span><h3>製作</h3><p>素材到齊後，標準 14 天上線，也可選 7 天或 3 天加急。</p></li>
       <li><span class="n">05</span><h3>修改</h3><p>初稿後 3 次修改，全程用 LINE 溝通。</p></li>
@@ -262,10 +262,10 @@
         </article>
         <article class="tier reveal">
           <div class="tier-top"><h3>加購與上線後</h3></div>
-          <p>7 天上線加 NT$2,000，3 天上線加 NT$5,000（3 天上線同一時間只接一件）。初稿後超過 3 次的修改，每次 NT$1,000。上線後修改每次 NT$500，付款後 3 天內完成。</p>
+          <p>7 天上線加 NT$2,000，3 天上線加 NT$5,000（3 天上線同一時間只接一件）。外語版每多一種語言加 NT$6,000 起。初稿後超過 3 次的修改，每次 NT$1,000。上線後修改每次 NT$500，付款後 3 天內完成。</p>
         </article>
       </div>
-      <p class="fine">主機費 0 元。網域由你在信任的台灣網域商以自己的名字購買與續約（約 NT$300–1,000／年，直接付給網域商），我們教你怎麼買。付款：銀行轉帳，簽約付 50%、上線前付 50%。目前以個人名義接案，不開立統一發票，提供簽收收據。實際價格以書面報價為準。</p>
+      <p class="fine">主機費 0 元。網域由你在信任的台灣網域商以自己的名字購買與續約（約 NT$300–1,000／年，直接付給網域商），我們教你怎麼買。付款：銀行轉帳，簽約付 50%、上線前付 50%。目前以個人名義接案，不開立統一發票，提供簽收收據。價格寫「起」，是因為房型超過 6 種、或需要額外的頁面（例如包棟或交通專頁）時，報價會提高；金額一定在簽約前寫在報價單上。實際價格以書面報價為準。</p>
       <div class="partner reveal">
         <p class="label">Free check</p>
         <p><b>已經有官網了？先免費健檢。</b>在估價單選「先免費健檢」並附上網址，我們會看手機版、訂房資訊和讀取速度，用 LINE 回你一份簡短的建議清單。看完不一定要找我們做。</p>
@@ -282,6 +282,9 @@
       </div>
       <div class="qa">
         <details><summary>網站做好之後屬於誰？</summary><p>屬於你。網域用你的名字購買，網站放在你自己的 Cloudflare 帳號，我們只是受你邀請的管理員。付清尾款後交付網站檔案備份、操作說明與帳號清單。</p></details>
+        <details><summary>沒有民宿登記證，也可以做嗎？</summary><p>不行。我們只為依法登記的民宿或旅館製作網站。估價時請準備登記證號，上線後會放在網站頁尾，旅客也可以到交通部觀光署的「台灣旅宿網」查證。</p></details>
+        <details><summary>我原本有網站，內容要重新準備嗎？</summary><p>不用。原本網站上的文字和照片，我們會幫你搬過來再一起整理，不另外收費。只要確認那些照片是你自己拍的、或有權使用的就好。</p></details>
+        <details><summary>可以做英文或日文版嗎？</summary><p>可以，每多一種語言加 NT$6,000 起。我們會依中文版翻譯初稿，建議再請懂這個語言的朋友幫忙看一次。</p></details>
         <details><summary>我需要準備什麼？</summary><p>民宿的照片（由你提供）、房型與價格、現有的訂房連結。文案不用自己寫，只要用 LINE 打字或語音回答約 10 個問題，我們會改寫成網站文字，再請你確認。</p></details>
         <details><summary>可以接 Booking、Airbnb 或 LINE 訂房嗎？</summary><p>可以。網站會在每個房型與頁尾放上訂房引導，連到你現有的訂房平台、LINE 或電話，不需要換掉原本的接單方式。</p></details>
         <details><summary>可以在網站上直接訂房付款嗎？</summary><p>基本方案不含線上付款系統。網站會把旅客帶到你現有的訂房方式（訂房平台、LINE 或電話）。如果需要線上金流或訂房系統，屬於報價單以外的項目，會另外估價。</p></details>
@@ -364,6 +367,10 @@
           <input id="q-url" name="url" type="text" inputmode="url" autocomplete="url" placeholder="例如：https://你的民宿.tw">
         </div>
         <div class="field">
+          <label for="q-license">民宿登記證號（選填，簽約前需要）</label>
+          <input id="q-license" name="license" type="text" autocomplete="off" placeholder="例如：宜蘭縣民宿 1234 號">
+        </div>
+        <div class="field">
           <label for="q-note-text">想先說的話（選填）</label>
           <input id="q-note-text" name="message" type="text" placeholder="例如：想做中英文、房間有 6 間">
         </div>
@@ -378,7 +385,7 @@
           <p class="label">已送出</p>
           <p id="q-msg"></p>
           <div class="send">
-            <a class="btn" id="q-line" href="#" target="_blank" rel="noopener" hidden>加我的 LINE</a>
+            <a class="btn" id="q-line" href="#" target="_blank" rel="noopener" hidden>加留燈的 LINE</a>
             <button class="btn ghost" id="q-copy" type="button">複製估價單編號</button>
           </div>
         </div>
