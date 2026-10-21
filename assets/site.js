@@ -3,7 +3,7 @@
 var CONTACT = {
   line: 'benben951011',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
   email: 'liudengsheji@gmail.com',
-  quoteUrl: ''  // Google Apps Script web app that saves quotes to Ben's sheet and emails the studio inbox
+  quoteUrl: 'https://script.google.com/macros/s/AKfycbwCWvaggQ5gy0VAYnm-k3r-jyooy4HEobbxKQr5ht_n-Co9JgGkmaae_QAG7T12EbYT/exec'  // Google Apps Script web app that saves quotes to Ben's sheet and emails the studio inbox
 };
 
 (function () {
