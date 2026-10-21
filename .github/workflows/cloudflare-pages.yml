@@ -2,7 +2,7 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches: [main, 'claude/project-thread-nmmdik']
+    branches: [main, 'claude/project-thread-nmmdik', 'claude/project-thread-1x4v4e']
   workflow_dispatch:
 
 jobs:
