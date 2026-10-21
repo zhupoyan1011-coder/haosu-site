@@ -1,7 +1,7 @@
 // 留燈設計工作室 — page behaviour
 // Fill these in to turn on the LINE / Email buttons in the contact form.
 var CONTACT = {
-  line: '',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
+  line: 'benben951011',   // Ben's personal LINE ID, e.g. 'liudeng'; the "add my LINE" button stays hidden while empty
   email: 'liudengsheji@gmail.com'
 };
 
