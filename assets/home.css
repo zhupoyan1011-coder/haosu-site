@@ -81,6 +81,8 @@ section{padding-block:clamp(56px,10vw,140px)}
 [data-style="boutique"] .m-photo.p2{background:linear-gradient(160deg,#5A4C33,#1E1A12)}
 [data-style="family"] .mock{background:#F3F6F4;color:#2E5A54}
 [data-style="family"] .m-photo{border-radius:6px;background:linear-gradient(180deg,#BFD5D0,#6D9A91)}
+[data-style="seaside"] .mock{background:#F4F1EA;color:#1F4A5C}
+[data-style="seaside"] .m-photo{background:linear-gradient(180deg,#CFE3EA,#7FAFC2 55%,#D9C8A6 56%,#C2AE88)}
 .style-meta{display:grid;grid-template-columns:auto 1fr;column-gap:14px;padding-top:18px}
 .style-meta .n{font-family:var(--latin);font-style:italic;font-size:20px;color:var(--brass);line-height:1.5}
 .style-meta h3{font-size:21px}
@@ -99,7 +101,7 @@ section{padding-block:clamp(56px,10vw,140px)}
 .tabs{position:relative;display:flex;border-bottom:1px solid var(--rule);margin-bottom:8px}
 .tabs button{flex:1;background:none;border:0;padding:14px 4px;font-size:14px;letter-spacing:.12em;color:var(--ink-3);cursor:pointer;transition:color .4s;min-height:48px}
 .tabs button[aria-selected="true"]{color:var(--ink)}
-.tab-ink{position:absolute;bottom:-1px;left:0;height:1px;width:33.333%;background:var(--ink);transition:transform .6s var(--ease)}
+.tab-ink{position:absolute;bottom:-1px;left:0;height:1px;width:50%;background:var(--ink);transition:transform .6s var(--ease)}
 .cmp-row{display:grid;grid-template-columns:76px 1fr 1fr;gap:16px;padding-block:18px;border-bottom:1px solid var(--rule);font-size:15px;align-items:baseline}
 .cmp-row>span:first-child{font-size:12px;letter-spacing:.14em;color:var(--ink-3)}
 .cmp-head{font-family:var(--serif);font-size:16px;padding-block:22px 14px}
@@ -185,6 +187,9 @@ section{padding-block:clamp(56px,10vw,140px)}
 .send .btn{flex:1 1 160px}
 .send .btn[aria-disabled="true"]{opacity:.38;pointer-events:none}
 .note{font-size:12px;color:var(--on-night-2);min-height:1.5em}
+.inquiry [hidden]{display:none!important}
+.inquiry .send button.btn{font:inherit;font-size:14px;letter-spacing:.18em;cursor:pointer;background:none;color:inherit;border:1px solid currentColor}
+.inquiry .field input:invalid.touched{border-bottom-color:#D9A38F}
 
 @media (max-width:860px){.mock{aspect-ratio:1/1}.cmp-row{padding-block:14px}}
 
