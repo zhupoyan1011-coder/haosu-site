@@ -36,12 +36,13 @@ for (const f of fs.readdirSync(path.join(root, 'assets'))) {
   for (const ch of fs.readFileSync(path.join(root, 'assets', f), 'utf8')) used.add(ch.codePointAt(0));
 }
 
-// demo sites under demos/ share these fonts
-const demos = path.join(root, 'demos');
-if (fs.existsSync(demos)) {
-  for (const f of fs.readdirSync(demos, { recursive: true })) {
+// demo sites under demos/ and articles under notes/ share these fonts
+for (const sub of ['demos', 'notes']) {
+  const dir = path.join(root, sub);
+  if (!fs.existsSync(dir)) continue;
+  for (const f of fs.readdirSync(dir, { recursive: true })) {
     if (!/\.(html|js)$/.test(f)) continue;
-    for (const ch of fs.readFileSync(path.join(demos, f), 'utf8')) used.add(ch.codePointAt(0));
+    for (const ch of fs.readFileSync(path.join(dir, f), 'utf8')) used.add(ch.codePointAt(0));
   }
 }
 
