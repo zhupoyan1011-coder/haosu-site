@@ -136,6 +136,7 @@ var CONTACT = {
         '上線時間：' + f.get('speed') + '\n' +
         '目前狀況：' + f.get('site') + '\n' +
         '網站網址：' + ((f.get('url') || '').trim() || '（無）') + '\n' +
+        '登記證號：' + ((f.get('license') || '').trim() || '（未填）') + '\n' +
         '想說的話：' + ((f.get('message') || '').trim() || '（無）');
     };
     if (CONTACT.line) { line.href = 'https://line.me/ti/p/~' + CONTACT.line.replace(/^@/, ''); line.hidden = false; }
@@ -171,9 +172,11 @@ var CONTACT = {
       if (!CONTACT.quoteUrl) { finish(false); return; }
       var body = new URLSearchParams();
       body.append('code', code);
-      // the sheet script has no URL column, so the site address rides along in the message
-      var url = (f.get('url') || '').trim(), msg = (f.get('message') || '').trim();
-      if (url) f.set('message', (msg ? msg + '｜' : '') + '網址：' + url);
+      // the sheet script has no URL or licence columns, so they ride along in the message
+      var extra = [['網址', 'url'], ['登記證號', 'license']].map(function (p) {
+        var v = (f.get(p[1]) || '').trim(); return v ? p[0] + '：' + v : '';
+      }).filter(Boolean), msg = (f.get('message') || '').trim();
+      if (extra.length) f.set('message', [msg].concat(extra).filter(Boolean).join('｜'));
       ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, (f.get(k) || '').trim()); });
       fetch(CONTACT.quoteUrl, { method: 'POST', body: body })
         .then(function (r) { return r.json(); })
