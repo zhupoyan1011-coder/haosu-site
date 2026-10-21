@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://haosu-studio.pages.dev/sitemap.xml
+Sitemap: https://liudeng.pages.dev/sitemap.xml
