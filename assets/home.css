@@ -148,7 +148,7 @@ section{padding-block:clamp(56px,10vw,140px)}
 .partner p:not(.label){font-size:15px;color:var(--ink-2)}
 .partner b{color:var(--ink);font-weight:400}
 @media (max-width:860px){.partner{grid-template-columns:1fr;padding:22px}}
-.fine{margin-top:22px;font-size:12px;color:var(--ink-3);max-width:52em;line-height:1.8}
+.fine{margin-top:22px;font-size:13px;color:var(--ink-3);max-width:52em;line-height:1.8}
 
 /* ---------- faq ---------- */
 .faq{padding-top:0}
@@ -159,6 +159,7 @@ section{padding-block:clamp(56px,10vw,140px)}
 .qa summary::-webkit-details-marker{display:none}
 .qa summary::after{content:"";flex:none;width:11px;height:11px;margin-top:9px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg);transition:transform .5s var(--ease)}
 .qa details[open] summary::after{transform:rotate(225deg)}
+.qa p a{text-decoration:underline;text-underline-offset:3px}
 .qa p{padding-bottom:22px;color:var(--ink-2);font-size:15px;max-width:40em}
 .qa details[open] p{animation:fade .6s var(--ease) both}
 
@@ -186,8 +187,8 @@ section{padding-block:clamp(56px,10vw,140px)}
 .send{display:flex;flex-wrap:wrap;gap:10px}
 .send .btn{flex:1 1 160px}
 .send .btn[aria-disabled="true"]{opacity:.38;pointer-events:none}
-.note{font-size:12px;color:var(--on-night-2);min-height:1.5em}
-.consent{font-size:12px;color:var(--on-night-2);line-height:1.8;margin-top:-14px}
+.note{font-size:13px;color:var(--on-night-2);min-height:1.5em}
+.consent{font-size:13px;color:var(--on-night-2);line-height:1.8;margin-top:-14px}
 .consent a{text-decoration:underline;text-underline-offset:3px}
 .inquiry [hidden]{display:none!important}
 .inquiry .send button.btn{font:inherit;font-size:14px;letter-spacing:.18em;cursor:pointer;background:none;color:inherit;border:1px solid currentColor}
