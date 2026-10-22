@@ -997,7 +997,7 @@ function setupBooking(r) {
    ========================================================== */
 function renderNav(route) {
   const items = route.name === "home"
-    ? [["rooms", "房間", "Rooms"], ["about", "關於", "About"]]
+    ? [["rooms", "房間", "Rooms"], ["about", "關於", "About"], ["notes", "須知", "Before you stay"], ["access", "交通", "Getting here"]]
     : [["r-overview", "概覽", "Overview"], ["r-gallery", "照片", "Gallery"], ["r-materials", "材質", "Materials"], ["r-plan", "平面圖", "Floor plan"]];
   $("#navLinks").innerHTML = items.map(([id, t]) => `<button type="button" data-scroll="${id}">${t}</button>`).join("");
   const cta = route.name === "home" ? `<button class="btn" type="button" data-scroll="rooms">選房預約</button>` : `<a class="link-btn" href="#/">${ARROW_L}全景</a><button class="btn" type="button" data-scroll="r-booking">立即預約</button>`;
@@ -1057,6 +1057,11 @@ function setupChrome() {
   });
   /* 選單中的連結（回全景）也要關閉選單 */
   menu.addEventListener("click", e => { if (e.target.closest("a")) setOpen(false); });
+  /* 示範用按鈕：不連到真實 LINE，只顯示說明 */
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-demo-btn]");
+    if (b) b.parentElement.querySelector(".demo-note")?.removeAttribute("hidden");
+  });
   $("#toTop").addEventListener("click", () => { window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" }); $(".brand").focus({ preventScroll: true }); });
 }
 
