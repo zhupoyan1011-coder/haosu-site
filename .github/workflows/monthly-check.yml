@@ -38,6 +38,7 @@ jobs:
           check /demos/yohaku/          '示範作品，民宿為虛構'
           check /demos/sugima/          '示範作品，民宿為虛構'
           check /demos/enko/            '示範作品，民宿為虛構'
+          check /demos/jiling/          '示範作品，民宿為虛構'
           check /assets/site.js         'quoteUrl'
           exit $fail
 
