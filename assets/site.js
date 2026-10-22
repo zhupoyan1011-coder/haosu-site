@@ -146,22 +146,47 @@ var CONTACT = {
     }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = $('#q-name'), reach = $('#q-reach');
+      if (send.disabled) return;
+      var name = $('#q-name'), reach = $('#q-reach'), url = $('#q-url');
       [name, reach].forEach(function (el) { el.classList.add('touched'); });
       if (!name.value.trim() || !reach.value.trim()) {
         note.textContent = '請填寫民宿名稱或暱稱，以及聯絡方式。';
         (name.value.trim() ? reach : name).focus();
         return;
       }
-      code = newCode();
+      // contact must look like an Email, a phone number or a LINE ID
+      var r = reach.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r) && !/^\+?[\d\s()-]{8,20}$/.test(r) && !/^(LINE\s*(ID)?\s*[:：]?\s*)?@?[A-Za-z0-9._-]{3,30}$/i.test(r)) {
+        note.textContent = '聯絡方式看起來不像 LINE ID、電話或 Email，請再確認一次。';
+        reach.focus();
+        return;
+      }
+      // a free check-up needs the current site's address
+      if (form.querySelector('input[name="plan"]:checked').value === '先免費健檢') {
+        var u = url.value.trim();
+        if (u && !/^https?:\/\//i.test(u)) u = 'https://' + u;
+        if (!/^https?:\/\/[^\s\/]+\.[^\s]+$/i.test(u)) {
+          note.textContent = '選「先免費健檢」時，請填上現在的網站網址，例如 https://你的民宿.tw';
+          url.classList.add('touched');
+          url.focus();
+          return;
+        }
+        url.value = u;
+      }
+      // keep the same number when retrying, so a resend never makes a second quote
+      if (!code) code = newCode();
       var f = new FormData(form), text = build(f);
       send.disabled = true; send.textContent = '送出中…';
-      var finish = function (ok) {
+      var finish = function (ok, unknown) {
         send.disabled = false; send.textContent = '送出估價單';
+        if (unknown) {
+          note.textContent = '網路太慢，我們不確定有沒有收到。請先不要重送，直接用 LINE 或寄 Email 到 ' + CONTACT.email + '，告訴我們估價單編號 ' + code + '，我們會幫你確認。';
+          return;
+        }
         if (ok) {
           msgEl.textContent = '你的估價單編號是 ' + code + '。' +
             (CONTACT.line ? '請加我們的 LINE，並把這個編號傳給我們，方便對照你的估價單。' : '請把這個編號記下來，我們聯絡你時會用它對照估價單。') +
-            '我們會盡快回覆。';
+            '不用 LINE 的話，也可以寄 Email 到 ' + CONTACT.email + ' 並附上編號。我們會盡快回覆。';
           done.hidden = false; send.hidden = true;
           note.textContent = '';
           done.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
@@ -181,11 +206,15 @@ var CONTACT = {
         var v = (f.get(p[1]) || '').trim(); return v ? p[0] + '：' + v : '';
       }).filter(Boolean), msg = (f.get('message') || '').trim();
       if (extra.length) f.set('message', [msg].concat(extra).filter(Boolean).join('｜'));
-      ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, (f.get(k) || '').trim()); });
-      fetch(CONTACT.quoteUrl, { method: 'POST', body: body })
+      // a leading = + - @ would run as a formula in the sheet, so the apostrophe keeps it as text
+      var safe = function (v) { return /^[=+\-@]/.test(v) ? "'" + v : v; };
+      ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, safe((f.get(k) || '').trim())); });
+      var ctl = window.AbortController ? new AbortController() : null, timedOut = false;
+      var timer = setTimeout(function () { timedOut = true; if (ctl) ctl.abort(); }, 20000);
+      fetch(CONTACT.quoteUrl, { method: 'POST', body: body, signal: ctl ? ctl.signal : undefined })
         .then(function (r) { return r.json(); })
-        .then(function (j) { finish(j && j.success === true); })
-        .catch(function () { finish(false); });
+        .then(function (j) { clearTimeout(timer); finish(j && j.success === true); })
+        .catch(function () { clearTimeout(timer); finish(false, timedOut); });
     });
     copy.addEventListener('click', function () {
       var ok = function () { note.textContent = '已複製編號 ' + code + '。'; };
