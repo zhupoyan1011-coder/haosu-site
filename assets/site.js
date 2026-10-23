@@ -186,7 +186,7 @@ var CONTACT = {
         if (ok) {
           msgEl.textContent = '你的估價單編號是 ' + code + '。' +
             (CONTACT.line ? '請加我們的 LINE，並把這個編號傳給我們，方便對照你的估價單。' : '請把這個編號記下來，我們聯絡你時會用它對照估價單。') +
-            '不用 LINE 的話，也可以寄 Email 到 ' + CONTACT.email + ' 並附上編號。我們會盡快回覆。';
+            '不用 LINE 的話，也可以寄 Email 到 ' + CONTACT.email + ' 並附上編號。我們會在 2 個工作天內回覆。';
           done.hidden = false; send.hidden = true;
           note.textContent = '';
           done.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
