@@ -201,11 +201,12 @@ var CONTACT = {
       if (!CONTACT.quoteUrl) { finish(false); return; }
       var body = new URLSearchParams();
       body.append('code', code);
-      // the sheet script has no URL or licence columns, so they ride along in the message
-      var extra = [['網址', 'url'], ['登記證號', 'license']].map(function (p) {
+      // the sheet script has no URL or licence columns, so they ride along in the message;
+      // they go first because the sheet keeps only the first 500 characters
+      var extra = [['登記證號', 'license'], ['網址', 'url']].map(function (p) {
         var v = (f.get(p[1]) || '').trim(); return v ? p[0] + '：' + v : '';
       }).filter(Boolean), msg = (f.get('message') || '').trim();
-      if (extra.length) f.set('message', [msg].concat(extra).filter(Boolean).join('｜'));
+      if (extra.length) f.set('message', extra.concat([msg]).filter(Boolean).join('｜'));
       // a leading = + - @ would run as a formula in the sheet, so the apostrophe keeps it as text
       var safe = function (v) { return /^[=+\-@]/.test(v) ? "'" + v : v; };
       ['name', 'reach', 'plan', 'style', 'speed', 'site', 'message', 'website'].forEach(function (k) { body.append(k, safe((f.get(k) || '').trim())); });
