@@ -1,0 +1,25 @@
+# 芭涵漢民宿 Bahanhan Homestay
+
+> 位於台東知本的合法民宿（臺東縣民宿 1545 號），距知本車站約 500 公尺，提供加大雙人床房、雙床房與四人房，每房私人衛浴。僅接受電話直接訂房或透過訂房平台，電話直訂享 9 折（不可與其他優惠併用）。
+> A licensed homestay in Zhiben, Taitung (Taitung County Homestay License No. 1545), about 500 m from Zhiben Station. Private bathroom in every room. Call to book direct for 10% off (cannot be combined with other offers).
+
+- 地址 Address: 臺東縣臺東市吉泰路599巷25號 / No. 25, Lane 599, Jitai Road, Taitung City
+- 電話 Phone: +886 966 717 732
+- 入住 Check-in 15:00–22:00；退房 Check-out 07:00–11:00
+- 房價隨日期與房型而異，請來電或至訂房平台查詢 / Prices vary by date and room; call or check the booking platforms.
+
+## 中文頁面
+- [首頁](https://bahanhan-redesign.pages.dev/)
+- [房型與照片](https://bahanhan-redesign.pages.dev/rooms/)
+- [交通與停車](https://bahanhan-redesign.pages.dev/location/)
+- [好吃好玩](https://bahanhan-redesign.pages.dev/explore/)
+- [台東不開車怎麼玩](https://bahanhan-redesign.pages.dev/taitung-without-car/)
+- [入住須知與常見問題](https://bahanhan-redesign.pages.dev/stay-guide/)
+
+## English pages
+- [Home](https://bahanhan-redesign.pages.dev/en/)
+- [Rooms](https://bahanhan-redesign.pages.dev/en/rooms/)
+- [Directions & parking](https://bahanhan-redesign.pages.dev/en/location/)
+- [Explore nearby](https://bahanhan-redesign.pages.dev/en/explore/)
+- [Taitung without a car](https://bahanhan-redesign.pages.dev/en/taitung-without-car/)
+- [Stay guide & FAQ](https://bahanhan-redesign.pages.dev/en/stay-guide/)
