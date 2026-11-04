@@ -35,7 +35,7 @@
       li.className = 'card';
       li.innerHTML =
         `<button class="card__btn" type="button" data-room="${i}" aria-haspopup="dialog">` +
-          `<span class="card__pic"><img src="img/${r.photos[0]}" alt="${r.name}的房間照片" loading="lazy" width="1024" height="640"></span>` +
+          `<span class="card__pic"><img src="img/s/${r.photos[0]}" alt="${r.name}的房間照片" loading="lazy" width="1024" height="640"></span>` +
           `<span class="card__meta"><span class="card__name">${r.name}</span><span class="card__floor">${r.floor || r.en}</span></span>` +
           (r.line ? `<span class="card__line">${r.line}</span>` : `<span class="card__line">共 ${r.photos.length} 張照片・介紹待民宿提供</span>`) +
           (r.price ? `<span class="card__price"><span>平日<b>${fmt(r.price[0])}</b></span><span>假日<b>${fmt(r.price[1])}</b></span></span>` : '') +
@@ -132,7 +132,7 @@
   });
 
   /* ---------- reveal on scroll ---------- */
-  const targets = $$('.split, .rv, .rv-group, .rv-img, .card, [data-roll]');
+  const targets = $$('.split, .rv, .rv-group, .rv-img, .rv-wave, .card, [data-roll]');
   if ('IntersectionObserver' in window && !reduce) {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
@@ -190,7 +190,8 @@
     let active = sections[0];
     for (const s of sections) if (s.getBoundingClientRect().top <= y) active = s;
     setClock(active);
-    clock.classList.toggle('is-on', scrollY > innerHeight * 0.5);
+    const footTop = $('.foot').getBoundingClientRect().top;
+    clock.classList.toggle('is-on', scrollY > innerHeight * 0.5 && footTop > innerHeight - 40);
     $('.bar').classList.toggle('is-scrolled', scrollY > 8);
     // rail draw in the walk section
     const rail = $('.rail');
@@ -223,6 +224,7 @@
   const setDrawer = open => {
     mb.setAttribute('aria-expanded', open);
     $('.menu-btn__txt').textContent = open ? '關閉' : '選單';
+    if (open) drawer.style.top = Math.max(0, $('.bar').getBoundingClientRect().bottom) + 'px';
     drawer.hidden = !open;
     document.documentElement.style.overflow = open ? 'hidden' : '';
     if (open) $('a', drawer).focus();
