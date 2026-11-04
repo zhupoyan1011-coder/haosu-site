@@ -46,6 +46,7 @@
 
   /* ---------- room dialog ---------- */
   const dlg = $('#room-dlg');
+  if (dlg) {
   const dImg = $('#dlg-img');
   let cur = null, idx = 0, opener = null;
   const show = (n, animate = true) => {
@@ -92,6 +93,7 @@
     const dx = e.changedTouches[0].clientX - sx; sx = null;
     if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
   });
+  }
 
   /* ---------- tabs (一館 / 二館) ---------- */
   const tabs = $$('.tabs [role="tab"]');
@@ -190,12 +192,12 @@
     let active = sections[0];
     for (const s of sections) if (s.getBoundingClientRect().top <= y) active = s;
     setClock(active);
-    const footTop = $('.foot').getBoundingClientRect().top;
+    const footTop = $('.foot') ? $('.foot').getBoundingClientRect().top : 1e9;
     clock.classList.toggle('is-on', scrollY > innerHeight * 0.5 && footTop > innerHeight - 40);
     $('.bar').classList.toggle('is-scrolled', scrollY > 8);
     // rail draw in the walk section
     const rail = $('.rail');
-    if (rail) {
+    if (rail && innerWidth) {
       const r = rail.getBoundingClientRect();
       const k = Math.max(0, Math.min(1, (innerHeight - r.top) / (innerHeight * 0.8)));
       rail.style.setProperty('--draw', (1 - k).toFixed(3));
@@ -251,5 +253,5 @@
   /* ---------- start opening animation ---------- */
   const start = () => requestAnimationFrame(() => document.body.classList.add('is-ready'));
   const heroImg = $('.hero__arch img');
-  if (heroImg.complete) start(); else { heroImg.addEventListener('load', start, { once: true }); heroImg.addEventListener('error', start, { once: true }); setTimeout(start, 1800); }
+  if (!heroImg || heroImg.complete) start(); else { heroImg.addEventListener('load', start, { once: true }); heroImg.addEventListener('error', start, { once: true }); setTimeout(start, 1800); }
 })();
