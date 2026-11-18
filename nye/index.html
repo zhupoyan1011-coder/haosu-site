@@ -8,7 +8,7 @@
 <title>跨年包棟與露營清單 12/31–1/2</title>
 <meta property="og:title" content="跨年包棟與露營清單 12/31–1/2">
 <meta property="og:description" content="唱歌＋烤肉包棟、懶人露營，兩晚都有空房的清單，附輔大出發車程與附近景點。">
-<link rel="stylesheet" href="fonts.css?v=3">
+<link rel="stylesheet" href="fonts.css?v=4">
 <style>
 :root{
   /* 單一夜空主題：深藍夜空、煙火金、燈籠紅、營火青。上方 3D 地圖，下方排行卡片 */
@@ -92,35 +92,46 @@ h1{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,6vw,2.7rem)
 footer{color:var(--muted);font-size:.78rem;padding:26px 0 calc(40px + env(safe-area-inset-bottom))}
 [hidden]{display:none!important}
 body.locked{overflow:hidden;height:100%}
-#intro{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#1b2470 0%,#0b1029 55%,#05081a 100%);display:grid;place-items:center;overflow:hidden;transition:opacity .9s ease,transform .9s cubic-bezier(.6,0,.4,1)}
-#intro.leave{opacity:0;transform:scale(1.12)}
+#intro{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 110%,#3a1d52 0%,#1a1550 30%,#0b0f2e 60%,#04060f 100%);display:grid;place-items:center;overflow:hidden;transition:opacity 1s ease,transform 1s cubic-bezier(.6,0,.4,1)}
+#intro.leave{opacity:0;transform:scale(1.15)}
 #introFx{position:absolute;inset:0;width:100%;height:100%}
-.intro-in{position:relative;text-align:center;padding:24px 22px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:10px;max-width:520px}
-.orb{position:relative;width:118px;height:118px;margin-bottom:6px;animation:pop 1s cubic-bezier(.2,1.4,.4,1) both}
-.ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
-.r1{border-top-color:var(--gold);border-right-color:var(--gold);animation:spin 2.4s linear infinite}
-.r2{inset:12px;border-bottom-color:var(--teal);border-left-color:var(--teal);animation:spin 1.8s linear infinite reverse}
-.r3{inset:24px;border-top-color:var(--red);animation:spin 3.2s linear infinite}
-.core{position:absolute;inset:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--map);font-size:2rem;color:#221a00;background:radial-gradient(circle at 35% 30%,#fff3c4,var(--gold) 60%,#c48a12);box-shadow:0 0 30px rgba(245,196,81,.7),0 0 70px rgba(245,196,81,.35);animation:breathe 2.2s ease-in-out infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes breathe{50%{transform:scale(1.08);box-shadow:0 0 44px rgba(245,196,81,.9),0 0 100px rgba(245,196,81,.45)}}
-@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
-.intro-kicker{margin:0;color:var(--teal);letter-spacing:.22em;font-size:.72rem;font-weight:700;animation:fadeUp .7s .25s both}
-.intro-title{margin:0;font-family:var(--map);font-weight:400;font-size:clamp(2.2rem,11vw,3.6rem);line-height:1.12;display:flex;flex-direction:column;background:linear-gradient(100deg,#fff 10%,var(--gold) 45%,#fff 80%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp .8s .4s both,shine 4s 1.2s linear infinite}
-.intro-title span:last-child{font-size:1.15em}
-.intro-sub{margin:0;color:var(--muted);font-size:.92rem;animation:fadeUp .7s .6s both}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;margin:8px 0 6px;animation:fadeUp .7s .75s both}
-.stats div{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:8px 4px}
+.intro-in{position:relative;text-align:center;padding:24px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-width:540px;min-height:100%;display:grid;place-items:center}
+.count,.year,.intro-body{grid-area:1/1}
+.count{font-family:var(--map);font-size:min(46vw,260px);line-height:1;color:#fff;text-shadow:0 0 30px rgba(245,196,81,.9),0 0 90px rgba(255,122,92,.6);pointer-events:none}
+.count span{display:inline-block}
+.count span.tick{animation:tick .62s cubic-bezier(.2,.9,.2,1) both}
+@keyframes tick{0%{transform:scale(2.4);opacity:0;filter:blur(8px)}35%{transform:scale(1);opacity:1;filter:none}75%{opacity:1}100%{transform:scale(.6);opacity:0}}
+.year{font-family:var(--map);font-size:min(30vw,170px);line-height:1;display:flex;justify-content:center;opacity:0;pointer-events:none;filter:drop-shadow(0 0 24px rgba(245,196,81,.75))}
+.year>span:first-child,.flip b{background:linear-gradient(180deg,#fff7d6,#f5c451 45%,#ff9f43);-webkit-background-clip:text;background-clip:text;color:transparent}
+.year.show{animation:yearIn 2.2s cubic-bezier(.2,.9,.2,1) both}
+@keyframes yearIn{0%{opacity:0;transform:scale(.6)}18%{opacity:1;transform:scale(1.04)}30%{transform:none}78%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-28vh) scale(.5)}}
+.flip{position:relative;display:inline-block;width:.62em;height:1.05em;overflow:hidden;clip-path:inset(0)}
+.flip b{position:absolute;display:block;top:0;left:0;right:0;font-weight:400}
+.flip .new{transform:translateY(100%)}
+.year.show .old{animation:out .5s .55s cubic-bezier(.6,0,.3,1) both}
+.year.show .new{animation:in .5s .55s cubic-bezier(.6,0,.3,1) both}
+@keyframes out{to{transform:translateY(-110%) rotateX(80deg);opacity:0}}
+@keyframes in{from{transform:translateY(110%) rotateX(-80deg)}to{transform:none}}
+.intro-body{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;pointer-events:none}
+.intro-body.show{pointer-events:auto;animation:bodyIn .9s cubic-bezier(.2,.9,.2,1) both}
+@keyframes bodyIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
+.intro-kicker{margin:0;color:#ffd77a;letter-spacing:.24em;font-size:.72rem;font-weight:700;text-shadow:0 0 12px rgba(245,196,81,.6)}
+.intro-title{margin:0;font-family:var(--map);font-weight:400;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:6px}
+.intro-title span:first-child{font-size:clamp(1.7rem,8.4vw,2.8rem);background:linear-gradient(100deg,#fff 10%,var(--gold) 45%,#fff 80%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 3.5s linear infinite}
+.intro-title .plan{font-size:clamp(2.6rem,15vw,4.6rem);letter-spacing:.08em;color:#fff;text-shadow:0 0 18px rgba(255,122,92,.85),0 0 46px rgba(245,196,81,.55),0 4px 0 #b4442c;animation:neon 2.4s ease-in-out infinite}
+@keyframes neon{0%,100%{text-shadow:0 0 18px rgba(255,122,92,.85),0 0 46px rgba(245,196,81,.55),0 4px 0 #b4442c}50%{text-shadow:0 0 28px rgba(255,122,92,1),0 0 80px rgba(245,196,81,.85),0 4px 0 #b4442c}}
+.intro-sub{margin:0;color:#c9cdf2;font-size:.9rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;margin:6px 0 4px}
+.stats div{background:rgba(255,255,255,.06);border:1px solid rgba(245,196,81,.28);border-radius:12px;padding:8px 4px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .stats b{display:block;font-family:var(--map);font-weight:400;font-size:1.5rem;color:var(--gold);font-variant-numeric:tabular-nums}
-.stats small{color:var(--muted);font-size:.68rem}
-.enter{margin-top:6px;font:inherit;font-family:var(--map);font-size:1.12rem;color:#221a00;background:linear-gradient(135deg,#ffe08a,var(--gold) 50%,#ff9f43);border:0;border-radius:999px;padding:15px 28px;cursor:pointer;box-shadow:0 10px 30px -8px rgba(245,196,81,.8);animation:fadeUp .7s 1.5s both,glow 2s 2.2s ease-in-out infinite;position:relative;overflow:hidden}
-.enter::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:sweep 2.6s 2.2s ease-in-out infinite}
+.stats small{color:#c9cdf2;font-size:.68rem}
+.enter{margin-top:6px;font:inherit;font-family:var(--map);font-size:1.1rem;color:#221a00;background:linear-gradient(135deg,#ffe9a8,var(--gold) 45%,#ff8f43);border:0;border-radius:999px;padding:15px 30px;cursor:pointer;box-shadow:0 10px 30px -8px rgba(245,196,81,.9),inset 0 -3px 0 rgba(0,0,0,.15);animation:glow 2s ease-in-out infinite;position:relative;overflow:hidden}
+.enter::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:sweep 2.4s ease-in-out infinite}
 .enter:active{transform:scale(.96)}
-.enter:disabled{opacity:.8}
-@keyframes glow{50%{box-shadow:0 10px 46px -4px rgba(245,196,81,1)}}
+.enter:disabled{opacity:.85}
+@keyframes glow{50%{box-shadow:0 10px 50px -2px rgba(245,196,81,1),inset 0 -3px 0 rgba(0,0,0,.15)}}
 @keyframes sweep{0%{left:-60%}60%,100%{left:130%}}
-@keyframes fadeUp{from{opacity:.001;transform:translateY(16px)}to{opacity:1;transform:none}}
-.intro-hint{margin:0;color:var(--muted);font-size:.75rem;animation:fadeUp .7s 1.7s both}
+.intro-hint{margin:0;color:#aab0dc;font-size:.75rem}
 h1,.tierhead h2,.rank,.rg,.tab,.sh-name{font-family:var(--map)}
 h1{font-weight:400}
 
@@ -132,30 +143,33 @@ h1{font-weight:400}
 <div id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
   <canvas id="introFx" aria-hidden="true"></canvas>
   <div class="intro-in">
-    <div class="orb" aria-hidden="true"><span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span><span class="core">B</span></div>
-    <p class="intro-kicker">BEN&#39;S AGENT · 跨年任務 2026 → 2027</p>
-    <h1 id="introTitle" class="intro-title"><span>Ben 的</span><span>Agent 模擬器</span></h1>
-    <p class="intro-sub">12/31–1/2 · 6–8 人包棟搜尋完成</p>
-    <div class="stats">
-      <div><b data-count="plat">0</b><small>訂房平台</small></div>
-      <div><b data-count="house">0</b><small>可訂包棟</small></div>
-      <div><b data-count="camp">0</b><small>懶人露營</small></div>
-      <div><b data-count="route">0</b><small>開車路線</small></div>
+    <div class="count" aria-hidden="true"><span id="cdNum"></span></div>
+    <div class="year" id="year" aria-hidden="true"><span>202</span><span class="flip"><b class="old">6</b><b class="new">7</b></span></div>
+    <div class="intro-body">
+      <p class="intro-kicker">HAPPY NEW YEAR · 2026 → 2027</p>
+      <h1 id="introTitle" class="intro-title"><span>Ben（第三型 Agent）</span><span class="plan">跨年計畫</span></h1>
+      <p class="intro-sub">12/31（四）→ 1/2（六）· 6–8 人包棟搜尋完成</p>
+      <div class="stats">
+        <div><b data-count="plat">0</b><small>訂房管道</small></div>
+        <div><b data-count="house">0</b><small>可訂包棟</small></div>
+        <div><b data-count="camp">0</b><small>懶人露營</small></div>
+        <div><b data-count="route">0</b><small>開車路線</small></div>
+      </div>
+      <button id="enterBtn" class="enter">進入 Ben（第三型 Agent）</button>
+      <p class="intro-hint">按下按鈕確認進入跨年計畫</p>
     </div>
-    <button id="enterBtn" class="enter">進入 Ben 的 Agent 模擬器</button>
-    <p class="intro-hint">按下按鈕確認進入</p>
   </div>
 </div>
 <div class="wrap">
 <header>
   <div class="kicker">12/31（四）入住 → 1/2（六）退房 · 6–8 人 · 輔大出發</div>
   <h1>跨年包棟與懶人露營清單</h1>
-  <p class="lede">只收兩晚都查得到空房、而且整棟包下的地方。能唱歌＋烤肉的排最前面，再來是有烤肉的，最後是一般包棟（依價格由低到高）。點卡片，地圖會飛到那個地方。</p>
+  <p class="lede">只收兩晚都查得到空房、而且整棟包下的地方。能唱歌＋烤肉的排最前面，再來是有烤肉或卡拉OK其中一樣的，最後是一般包棟（後兩組依價格由低到高）。每人 5,000 元以上（8 人計）的不列。點卡片，地圖會飛到那個地方。</p>
   <div class="facts">
     <span class="fact">查詢 <b>2026/11/19 凌晨</b></span>
     <span class="fact">價格 <b>兩晚總價（新台幣）</b></span>
-    <span class="fact">平台 <b>Airbnb · Booking · Agoda · 台灣宿配網 · 露營樂</b></span>
-    <span class="fact">條件 <b>整棟包下 · 兩晚 7 萬以下</b></span>
+    <span class="fact">管道 <b>Airbnb · Booking · Agoda · 台灣宿配網 · 露營樂 · Google／社群貼文</b></span>
+    <span class="fact">條件 <b>整棟包下 · 每人 5,000 以下（8 人計）</b></span>
   </div>
 </header>
 
@@ -169,7 +183,7 @@ h1{font-weight:400}
   </div>
   <div id="tag"><b>🎓 從輔大出發</b><span class="hint">拖曳旋轉 · 兩指縮放 · 點圖釘看詳情</span></div>
   <div class="legend">
-    <span>🎤 唱歌＋烤肉</span><span>🍖 有烤肉</span><span>🏠 一般包棟</span><span>⛺ 懶人露營</span>
+    <span>🎤 唱歌＋烤肉</span><span>🍖 有烤肉或卡拉OK</span><span>🏠 一般包棟</span><span>⛺ 懶人露營</span>
   </div>
   <div id="sheet" hidden>
     <button class="x" id="sheetX" aria-label="關閉">×</button>
@@ -190,14 +204,14 @@ h1{font-weight:400}
 <section id="panel-camp" role="tabpanel" aria-labelledby="tab-camp" hidden></section>
 
 <footer>
-  <p>資料來源：Airbnb、Booking.com、Agoda、台灣宿配網、露營樂的公開頁面，2026/11/19 凌晨用 12/31–1/2、8 位大人查詢。卡拉OK與烤肉是依房源頁面寫的設施判斷；跨年夜能唱到幾點、烤肉要不要另外收費，下訂前請先問房東。AsiaYo 的日期篩選沒有套用成功，沒有列入；Agoda 的包棟和 Booking 重複，以 Booking 價格為準。只收整棟包下的房源（公寓、套房、整層不算），兩晚總價 7 萬以上的已拿掉。</p>
+  <p>資料來源：Airbnb、Booking.com、Agoda、台灣宿配網、露營樂的公開頁面，2026/11/19 凌晨用 12/31–1/2、8 位大人查詢。卡拉OK與烤肉是依房源頁面寫的設施判斷；跨年夜能唱到幾點、烤肉要不要另外收費，下訂前請先問房東。AsiaYo 的日期篩選沒有套用成功，沒有列入；Agoda 的包棟和 Booking 重複，以 Booking 價格為準。只收整棟包下的房源（公寓、套房、整層不算），每人超過 5,000 元（8 人分攤、兩晚總價 4 萬以上）的已拿掉。另外用 Google、Threads、Facebook 社團與廣告找了新開幕的包棟，但大多已客滿，或只能私訊問空房，沒有列入。</p>
   <p>露營樂的營區頁面都寫明禁止卡拉OK和麻將，晚上 10 點後要降低音量。兩晚連住的小木屋沒有找到空房。露營的剩餘帳數是全營區合計，懶人帳請點進營區確認。</p>
   <p>地圖：內政部縣市界線（經 taiwan-atlas 轉檔）。字體：jf 粉圓體 Huninn（SIL OFL 1.1）。路線與車程：© OpenStreetMap 貢獻者，以 OSRM 計算。</p>
 </footer>
 </div>
 <script src="three.min.js"></script>
-<script src="geo.js?v=3"></script>
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="geo.js?v=4"></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
