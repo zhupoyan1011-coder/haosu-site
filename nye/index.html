@@ -8,7 +8,7 @@
 <title>跨年包棟與露營清單 12/31–1/2</title>
 <meta property="og:title" content="跨年包棟與露營清單 12/31–1/2">
 <meta property="og:description" content="唱歌＋烤肉包棟、懶人露營，兩晚都有空房的清單，附輔大出發車程與附近景點。">
-<link rel="stylesheet" href="fonts.css?v=4">
+<link rel="stylesheet" href="fonts.css?v=5">
 <style>
 :root{
   /* 單一夜空主題：深藍夜空、煙火金、燈籠紅、營火青。上方 3D 地圖，下方排行卡片 */
@@ -146,30 +146,27 @@ h1{font-weight:400}
     <div class="count" aria-hidden="true"><span id="cdNum"></span></div>
     <div class="year" id="year" aria-hidden="true"><span>202</span><span class="flip"><b class="old">6</b><b class="new">7</b></span></div>
     <div class="intro-body">
-      <p class="intro-kicker">HAPPY NEW YEAR · 2026 → 2027</p>
+      <p class="intro-kicker">HAPPY NEW YEAR 2027</p>
       <h1 id="introTitle" class="intro-title"><span>Ben（第三型 Agent）</span><span class="plan">跨年計畫</span></h1>
-      <p class="intro-sub">12/31（四）→ 1/2（六）· 6–8 人包棟搜尋完成</p>
+      <p class="intro-sub">12/31 – 1/2 · 6–8 人</p>
       <div class="stats">
-        <div><b data-count="plat">0</b><small>訂房管道</small></div>
-        <div><b data-count="house">0</b><small>可訂包棟</small></div>
-        <div><b data-count="camp">0</b><small>懶人露營</small></div>
-        <div><b data-count="route">0</b><small>開車路線</small></div>
+        <div><b data-count="plat">0</b><small>管道</small></div>
+        <div><b data-count="house">0</b><small>包棟</small></div>
+        <div><b data-count="camp">0</b><small>露營</small></div>
+        <div><b data-count="route">0</b><small>路線</small></div>
       </div>
       <button id="enterBtn" class="enter">進入 Ben（第三型 Agent）</button>
-      <p class="intro-hint">按下按鈕確認進入跨年計畫</p>
     </div>
   </div>
 </div>
 <div class="wrap">
 <header>
-  <div class="kicker">12/31（四）入住 → 1/2（六）退房 · 6–8 人 · 輔大出發</div>
-  <h1>跨年包棟與懶人露營清單</h1>
-  <p class="lede">只收兩晚都查得到空房、而且整棟包下的地方。能唱歌＋烤肉的排最前面，再來是有烤肉或卡拉OK其中一樣的，最後是一般包棟（後兩組依價格由低到高）。每人 5,000 元以上（8 人計）的不列。點卡片，地圖會飛到那個地方。</p>
+  <div class="kicker">12/31 – 1/2 · 6–8 人 · 輔大出發</div>
+  <h1>跨年包棟清單</h1>
+  <p class="lede">兩晚有空・整棟包下・每人 5,000 以下。點卡片看位置。</p>
   <div class="facts">
-    <span class="fact">查詢 <b>2026/11/19 凌晨</b></span>
-    <span class="fact">價格 <b>兩晚總價（新台幣）</b></span>
-    <span class="fact">管道 <b>Airbnb · Booking · Agoda · 台灣宿配網 · 露營樂 · Google／社群貼文</b></span>
-    <span class="fact">條件 <b>整棟包下 · 每人 5,000 以下（8 人計）</b></span>
+    <span class="fact">價格＝<b>兩晚總價</b></span>
+    <span class="fact">查詢 <b>11/19</b></span>
   </div>
 </header>
 
@@ -181,37 +178,36 @@ h1{font-weight:400}
     <button class="rg" data-r="central">南投</button>
     <button class="rg" data-r="south">台南高雄</button>
   </div>
-  <div id="tag"><b>🎓 從輔大出發</b><span class="hint">拖曳旋轉 · 兩指縮放 · 點圖釘看詳情</span></div>
+  <div id="tag"><b>🎓 從輔大出發</b><span class="hint">點圖釘看詳情</span></div>
   <div class="legend">
-    <span>🎤 唱歌＋烤肉</span><span>🍖 有烤肉或卡拉OK</span><span>🏠 一般包棟</span><span>⛺ 懶人露營</span>
+    <span>🎤 唱歌＋烤肉</span><span>🍖 二選一</span><span>🏠 一般</span><span>⛺ 露營</span>
   </div>
   <div id="sheet" hidden>
     <button class="x" id="sheetX" aria-label="關閉">×</button>
     <div class="sh-top"><span class="sh-ico" id="shIco"></span><div><div class="sh-name" id="shName"></div><div class="sh-where" id="shWhere"></div></div></div>
-    <div class="sh-nums"><div><small>兩晚總價</small><b id="shPrice"></b></div><div><small>輔大出發（不塞車）</small><b id="shTime"></b></div></div>
-    <div class="sh-btns"><button id="shMore">看完整資訊</button><a id="shGo" target="_blank" rel="noopener">打開訂房頁面</a></div>
+    <div class="sh-nums"><div><small>兩晚</small><b id="shPrice"></b></div><div><small>車程</small><b id="shTime"></b></div></div>
+    <div class="sh-btns"><button id="shMore">詳情</button><a id="shGo" target="_blank" rel="noopener">訂房</a></div>
   </div>
   <div id="loading">載入 3D 地圖中…</div>
 </div>
 
-<div class="warn"><b>先看這裡：</b>車程是<b>不塞車</b>的估算。跨年連假國道五號（往宜蘭）常塞到 2–3 倍，往南的國道一號、三號也會塞，請提早出發。房況隨時會變，下訂前以訂房頁面為準。</div>
+<div class="warn">車程為不塞車估算，跨年可能塞 2–3 倍，請提早出發。</div>
 
 <div class="tabs" role="tablist">
   <button class="tab" role="tab" id="tab-house" aria-selected="true" aria-controls="panel-house">包棟（<span id="cHouse">0</span>）</button>
-  <button class="tab" role="tab" id="tab-camp" aria-selected="false" aria-controls="panel-camp">露營／懶人露營（<span id="cCamp">0</span>）</button>
+  <button class="tab" role="tab" id="tab-camp" aria-selected="false" aria-controls="panel-camp">露營（<span id="cCamp">0</span>）</button>
 </div>
 <section id="panel-house" role="tabpanel" aria-labelledby="tab-house"></section>
 <section id="panel-camp" role="tabpanel" aria-labelledby="tab-camp" hidden></section>
 
 <footer>
-  <p>資料來源：Airbnb、Booking.com、Agoda、台灣宿配網、露營樂的公開頁面，2026/11/19 凌晨用 12/31–1/2、8 位大人查詢。卡拉OK與烤肉是依房源頁面寫的設施判斷；跨年夜能唱到幾點、烤肉要不要另外收費，下訂前請先問房東。AsiaYo 的日期篩選沒有套用成功，沒有列入；Agoda 的包棟和 Booking 重複，以 Booking 價格為準。只收整棟包下的房源（公寓、套房、整層不算），每人超過 5,000 元（8 人分攤、兩晚總價 4 萬以上）的已拿掉。另外用 Google、Threads、Facebook 社團與廣告找了新開幕的包棟，但大多已客滿，或只能私訊問空房，沒有列入。</p>
-  <p>露營樂的營區頁面都寫明禁止卡拉OK和麻將，晚上 10 點後要降低音量。兩晚連住的小木屋沒有找到空房。露營的剩餘帳數是全營區合計，懶人帳請點進營區確認。</p>
-  <p>地圖：內政部縣市界線（經 taiwan-atlas 轉檔）。字體：jf 粉圓體 Huninn（SIL OFL 1.1）。路線與車程：© OpenStreetMap 貢獻者，以 OSRM 計算。</p>
+  <p>資料：Airbnb、Booking、Agoda、台灣宿配網、露營樂（11/19 查詢）。KTV、烤肉是否加價請先問房東。</p>
+  <p>地圖：內政部／taiwan-atlas・路線：© OpenStreetMap、OSRM・字體：粉圓體（OFL）</p>
 </footer>
 </div>
 <script src="three.min.js"></script>
-<script src="geo.js?v=4"></script>
-<script src="data.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="geo.js?v=5"></script>
+<script src="data.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

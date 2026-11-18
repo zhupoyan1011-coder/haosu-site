@@ -3,10 +3,10 @@
 var ORIGIN={lat:25.0365,lng:121.4319};
 var MAPFONT="Huninn, 'PingFang TC', 'Noto Sans TC', sans-serif";
 var T={
- A:{label:"🥇 卡拉OK＋烤肉都有",desc:"第一優先",color:"#f5c451"},
- B:{label:"🥈 有烤肉或卡拉OK",desc:"兩樣有其中一樣",color:"#ff7a5c"},
- C:{label:"🏠 一般包棟",desc:"沒有標示唱歌、烤肉，但整棟包下、價格實在",color:"#9aa6ff"},
- D:{label:"⛺ 懶人露營",desc:"營區禁止卡拉OK，多數可烤肉",color:"#4fd6c4"}
+ A:{label:"🥇 唱歌＋烤肉",desc:"首選",color:"#f5c451"},
+ B:{label:"🥈 烤肉或唱歌",desc:"二選一",color:"#ff7a5c"},
+ C:{label:"🏠 一般包棟",desc:"便宜為主",color:"#9aa6ff"},
+ D:{label:"⛺ 懶人露營",desc:"禁止卡拉OK",color:"#4fd6c4"}
 };
 var ICON={A:"🎤",B:"🍖",C:"🏠",D:"⛺"};
 function iconOf(d){return d.tier==="B"&&d.ktv&&!d.bbq?"🎤":ICON[d.tier]}
@@ -16,7 +16,7 @@ DATA.forEach(function(d,i){d.idx=i});
 /* ---------- 清單 ---------- */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function money(n){return n==null?"點連結看":"$"+n.toLocaleString("en-US")}
-function per(n){return n==null?"價格依營位":"每人約 $"+Math.round(n/8).toLocaleString("en-US")+"（8 人）"}
+function per(n){return n==null?"依營位":"每人 $"+Math.round(n/8).toLocaleString("en-US")}
 function dur(m){var h=Math.floor(m/60);return(h?h+" 小時 ":"")+(m%60)+" 分"}
 var rankOf={};
 function card(d,n){
@@ -24,17 +24,17 @@ function card(d,n){
   return '<article class="card" tabindex="0" data-idx="'+d.idx+'" style="--c:'+T[d.tier].color+';--i:'+Math.min(n,14)+'">'+
   '<div class="top"><div class="rank">'+n+'</div><div><div class="name">'+esc(d.name)+'</div><div class="where">'+esc(d.where)+" · "+esc(d.plat)+" · "+esc(d.cap)+'</div></div></div>'+
   '<div class="pills"><span class="pill '+(d.ktv?"yes":"no")+'">卡拉OK</span><span class="pill '+(d.bbq?"yes":"no")+'">烤肉</span><span class="pill">評價 '+esc(d.rating)+'</span></div>'+
-  '<div class="nums"><div class="num"><small>兩晚總價</small><b>'+money(d.price)+'</b><small>'+per(d.price)+'</small></div><div class="num"><small>輔大出發（不塞車）</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
-  '<div><div class="label">附近可以去</div><ul class="near">'+near+'</ul></div>'+
+  '<div class="nums"><div class="num"><small>兩晚</small><b>'+money(d.price)+'</b><small>'+per(d.price)+'</small></div><div class="num"><small>車程</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
+  '<div><div class="label">附近</div><ul class="near">'+near+'</ul></div>'+
   (d.note?'<div class="note">'+esc(d.note)+'</div>':"")+
-  '<a class="go" href="'+esc(d.url)+'" target="_blank" rel="noopener">打開訂房頁面</a></article>';
+  '<a class="go" href="'+esc(d.url)+'" target="_blank" rel="noopener">訂房</a></article>';
 }
 function render(cat,el){
   var items=DATA.filter(function(d){return d.cat===cat});
   var html="",n=0;
   ["A","B","C","D"].forEach(function(t){
     var g=items.filter(function(d){return d.tier===t});if(!g.length)return;
-    html+='<div class="tierhead"><h2 style="color:'+T[t].color+'">'+T[t].label+'</h2><span>'+T[t].desc+" · "+g.length+' 間</span></div><div class="grid">';
+    html+='<div class="tierhead"><h2 style="color:'+T[t].color+'">'+T[t].label+'</h2><span>'+g.length+' 間 · '+T[t].desc+'</span></div><div class="grid">';
     g.forEach(function(d){n++;rankOf[d.idx]=n;html+=card(d,n)});html+="</div>";
   });
   el.innerHTML=html;return items.length;
@@ -145,7 +145,7 @@ function showCard(idx){
 function openSheet(d){
   sheet.style.setProperty("--c",T[d.tier].color);
   document.getElementById("shIco").textContent=iconOf(d);
-  document.getElementById("shName").textContent=d.name;
+  document.getElementById("shName").textContent=d.s;
   document.getElementById("shWhere").textContent=d.where+" · "+d.plat+" · "+d.cap;
   document.getElementById("shPrice").textContent=money(d.price);
   document.getElementById("shTime").textContent=dur(d.mins);
@@ -325,21 +325,21 @@ try{
     central:function(){return{yaw:-.15,pitch:.95,dist:narrow()?13:10,tx:X(121.02),tz:Z(23.96)}},
     south:function(){return{yaw:-.1,pitch:.95,dist:narrow()?24:18,tx:X(120.32),tz:Z(23.0)}}
   };
-  var REGNAME={all:"🗺️ 全台總覽",yilan:"🌾 宜蘭：選擇最多，車程約 1–1.5 小時",north:"🏞️ 桃竹苗：車程最短，45 分–2 小時",central:"⛰️ 南投：埔里、日月潭、清境，約 3 小時",south:"☀️ 台南高雄：約 3.5–4 小時"};
+  var REGNAME={all:"🗺️ 全台",yilan:"🌾 宜蘭・約 1–1.5 小時",north:"🏞️ 桃竹苗・約 1–2 小時",central:"⛰️ 南投・約 3 小時",south:"☀️ 台南高雄・約 3.5–4 小時"};
   var from=null,goal=REG.all(),tween=0,tweenDur=3.2,base={yaw:goal.yaw};
   function flyTo(g,d){from=Object.assign({},cur);goal=g;tween=0;tweenDur=reduce?.01:(d||1.4);base.yaw=g.yaw}
   flyTo(REG.all(),3.2);
   function place(){var cp=Math.cos(cur.pitch);cam.position.set(cur.tx+cur.dist*Math.sin(cur.yaw)*cp,.5+cur.dist*Math.sin(cur.pitch),cur.tz+cur.dist*Math.cos(cur.yaw)*cp);cam.lookAt(cur.tx,.5,cur.tz)}
   var focused=-1,catShow="house",lastInput=0,sway=0;
   function setTag(html){tag.innerHTML=html}
-  map.region=function(r){setRegionBtn(r);focused=-1;closeSheet();flyTo(REG[r](),1.6);setTag('<b>'+REGNAME[r]+'</b><span class="hint">點圖釘看詳情 · 拖曳旋轉 · 兩指縮放</span>')};
+  map.region=function(r){setRegionBtn(r);focused=-1;closeSheet();flyTo(REG[r](),1.6);setTag('<b>'+REGNAME[r]+'</b>')};
   map.focus=function(idx){
     if(idx<0){focused=-1;return}
     var p=pins[idx];if(!p)return;focused=idx;lastInput=performance.now();catShow=p.d.cat;
     var close=narrow()?4.4:3.6;
     flyTo({yaw:cur.yaw,pitch:.8,dist:close,tx:p.pos.x,tz:p.pos.z+close*.13},1.5);
     setRegionBtn("");var d=p.d;
-    setTag('<b style="color:'+T[d.tier].color+'">'+iconOf(d)+" "+esc(d.s)+'</b><span class="hint">輔大出發約 '+dur(d.mins)+"（不塞車）· "+d.km+" 公里</span>");
+    setTag('<b style="color:'+T[d.tier].color+'">'+iconOf(d)+" "+esc(d.s)+'</b><span class="hint">車程 '+dur(d.mins)+" · "+money(d.price)+"</span>");
     [timeLbl,nameLbl].forEach(function(s){s.material.map.dispose();s.material.dispose();scene.remove(s)});
     timeLbl=label("🚗 "+dur(d.mins),{size:40,bg:"rgba(255,255,255,.96)",color:"#0b1029",order:27});timeLbl.center.set(.5,0);scene.add(timeLbl);
     nameLbl=label(d.s,{size:42,bg:"rgba(11,16,41,.92)",border:T[d.tier].color,color:"#fff",order:29});nameLbl.center.set(.5,1.2);scene.add(nameLbl);
@@ -426,7 +426,7 @@ try{
     fwGeo.attributes.position.needsUpdate=true;fwGeo.attributes.color.needsUpdate=true;fwMat.size=zoom*.016;
     renderer.render(scene,cam);requestAnimationFrame(loop);
   }
-  setTag('<b>🎓 從輔大出發</b><span class="hint">拖曳旋轉 · 兩指縮放 · 點圖釘看詳情</span>');
+  setTag('<b>🎓 從輔大出發</b><span class="hint">點圖釘看詳情</span>');
   kick();
 }catch(err){
   var le=document.getElementById("loading");if(le)le.textContent="這台裝置無法顯示 3D 地圖，下方清單仍可正常使用。";
