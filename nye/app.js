@@ -22,7 +22,7 @@ var rankOf={};
 function card(d,n){
   var near=(NEAR[d.near]||[]).map(function(x){return"<li>"+esc(x)+"</li>"}).join("");
   return '<article class="card" tabindex="0" data-idx="'+d.idx+'" style="--c:'+T[d.tier].color+';--i:'+Math.min(n,14)+'">'+
-  '<div class="top"><div class="rank">'+n+'</div><div><div class="name">'+esc(d.name)+'</div><div class="where">'+esc(d.where)+" · "+esc(d.plat)+" · "+esc(d.cap)+'</div></div></div>'+
+  '<div class="top"><div class="rank">'+n+'</div><div><div class="name">'+esc(d.s)+'</div><div class="where">'+esc(d.where)+" · "+esc(d.plat)+" · "+esc(d.cap)+'</div></div></div>'+
   '<div class="pills"><span class="pill '+(d.ktv?"yes":"no")+'">卡拉OK</span><span class="pill '+(d.bbq?"yes":"no")+'">烤肉</span><span class="pill">評價 '+esc(d.rating)+'</span></div>'+
   '<div class="nums"><div class="num"><small>兩晚</small><b>'+money(d.price)+'</b><small>'+per(d.price)+'</small></div><div class="num"><small>車程</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
   '<div><div class="label">附近</div><ul class="near">'+near+'</ul></div>'+
