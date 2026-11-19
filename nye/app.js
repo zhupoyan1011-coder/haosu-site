@@ -6,7 +6,7 @@ var T={
  A:{label:"🥇 唱歌＋烤肉",desc:"首選",color:"#f5c451"},
  B:{label:"🥈 烤肉或唱歌",desc:"二選一",color:"#ff7a5c"},
  C:{label:"🏠 一般包棟",desc:"便宜為主",color:"#9aa6ff"},
- D:{label:"⛺ 懶人露營",desc:"禁止卡拉OK",color:"#4fd6c4"},
+ D:{label:"⛺ 露營・小木屋",desc:"不用帶裝備",color:"#4fd6c4"},
  M:{label:"🛏️ 高評分民宿",desc:"分房住 · 有交誼空間",color:"#ff8fd0"}
 };
 var ICON={A:"🎤",B:"🍖",C:"🏠",D:"⛺",M:"🛏️"};
@@ -17,7 +17,7 @@ DATA.forEach(function(d,i){d.idx=i});
 /* ---------- 清單 ---------- */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function money(n){return n==null?"點連結看":"$"+n.toLocaleString("en-US")}
-function per(n){return n==null?"依營位":"每人 $"+Math.round(n/8).toLocaleString("en-US")}
+function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return d&&d.cat==="minsu"?"8 人每人 "+f(8):"10 人每人 "+f(10)+"・8 人 "+f(8)}
 function dur(m){var h=Math.floor(m/60);return(h?h+" 小時 ":"")+(m%60)+" 分"}
 var rankOf={};
 function card(d,n){
@@ -25,7 +25,7 @@ function card(d,n){
   return '<article class="card" tabindex="0" data-idx="'+d.idx+'" style="--c:'+T[d.tier].color+';--i:'+Math.min(n,14)+'">'+
   '<div class="top"><div class="rank">'+n+'</div><div><div class="name">'+esc(d.s)+'</div><div class="where">'+esc(d.where)+" · "+esc(d.plat)+" · "+esc(d.cap)+'</div></div></div>'+
   '<div class="pills"><span class="pill '+(d.ktv?"yes":"no")+'">卡拉OK</span><span class="pill '+(d.bbq?"yes":"no")+'">烤肉</span><span class="pill">評價 '+esc(d.rating)+'</span></div>'+
-  '<div class="nums"><div class="num"><small>兩晚</small><b>'+money(d.price)+'</b><small>'+per(d.price)+'</small></div><div class="num"><small>車程</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
+  '<div class="nums"><div class="num"><small>兩晚</small><b>'+money(d.price)+'</b><small>'+per(d.price,d)+'</small></div><div class="num"><small>車程</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
   '<div><div class="label">附近</div><ul class="near">'+near+'</ul></div>'+
   (d.note?'<div class="note">'+esc(d.note)+'</div>':"")+
   '<a class="go" href="'+esc(d.url)+'" target="_blank" rel="noopener">訂房</a></article>';
