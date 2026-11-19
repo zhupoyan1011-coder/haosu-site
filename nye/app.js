@@ -6,9 +6,10 @@ var T={
  A:{label:"🥇 唱歌＋烤肉",desc:"首選",color:"#f5c451"},
  B:{label:"🥈 烤肉或唱歌",desc:"二選一",color:"#ff7a5c"},
  C:{label:"🏠 一般包棟",desc:"便宜為主",color:"#9aa6ff"},
- D:{label:"⛺ 懶人露營",desc:"禁止卡拉OK",color:"#4fd6c4"}
+ D:{label:"⛺ 懶人露營",desc:"禁止卡拉OK",color:"#4fd6c4"},
+ M:{label:"🛏️ 高評分民宿",desc:"分房住 · 有交誼空間",color:"#ff8fd0"}
 };
-var ICON={A:"🎤",B:"🍖",C:"🏠",D:"⛺"};
+var ICON={A:"🎤",B:"🍖",C:"🏠",D:"⛺",M:"🛏️"};
 function iconOf(d){return d.tier==="B"&&d.ktv&&!d.bbq?"🎤":ICON[d.tier]}
 var NEAR=window.NEAR||{},DATA=window.DATA||[];
 DATA.forEach(function(d,i){d.idx=i});
@@ -32,7 +33,7 @@ function card(d,n){
 function render(cat,el){
   var items=DATA.filter(function(d){return d.cat===cat});
   var html="",n=0;
-  ["A","B","C","D"].forEach(function(t){
+  ["A","B","C","D","M"].forEach(function(t){
     var g=items.filter(function(d){return d.tier===t});if(!g.length)return;
     html+='<div class="tierhead"><h2 style="color:'+T[t].color+'">'+T[t].label+'</h2><span>'+g.length+' 間 · '+T[t].desc+'</span></div><div class="grid">';
     g.forEach(function(d){n++;rankOf[d.idx]=n;html+=card(d,n)});html+="</div>";
@@ -41,7 +42,8 @@ function render(cat,el){
 }
 document.getElementById("cHouse").textContent=render("house",document.getElementById("panel-house"));
 document.getElementById("cCamp").textContent=render("camp",document.getElementById("panel-camp"));
-var TABS=[["tab-house","panel-house","house"],["tab-camp","panel-camp","camp"]];
+document.getElementById("cMinsu").textContent=render("minsu",document.getElementById("panel-minsu"));
+var TABS=[["tab-house","panel-house","house"],["tab-minsu","panel-minsu","minsu"],["tab-camp","panel-camp","camp"]];
 function setTab(cat){TABS.forEach(function(y){var on=y[2]===cat;document.getElementById(y[0]).setAttribute("aria-selected",on);document.getElementById(y[1]).hidden=!on})}
 TABS.forEach(function(x){document.getElementById(x[0]).addEventListener("click",function(){setTab(x[2]);map.filter(x[2])})});
 
@@ -50,7 +52,8 @@ var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 var intro=document.getElementById("intro");
 var entered=false,onEnter=[];
 (function(){
-  var cv=document.getElementById("introFx"),g=cv.getContext("2d"),W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2);
+  var cv=document.getElementById("introFx"),g=cv.getContext("2d"),W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,1.5);
+  var flashC=document.createElement("canvas");flashC.width=flashC.height=140;(function(){var fg=flashC.getContext("2d"),gr=fg.createRadialGradient(70,70,0,70,70,70);gr.addColorStop(0,"rgba(255,255,255,.9)");gr.addColorStop(1,"rgba(255,200,120,0)");fg.fillStyle=gr;fg.fillRect(0,0,140,140)})();
   var sky=document.createElement("canvas"),sg=sky.getContext("2d");
   function drawSkyline(){sky.width=W*dpr;sky.height=H*dpr;sg.setTransform(dpr,0,0,dpr,0,0);sg.clearRect(0,0,W,H);
     var base=H,x=0,seed=7;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
@@ -91,7 +94,7 @@ var entered=false,onEnter=[];
       g.strokeStyle=R.c;g.lineWidth=2;g.globalAlpha=.8;g.beginPath();g.moveTo(R.trail[0],R.trail[1]);for(var q=2;q<R.trail.length;q+=2)g.lineTo(R.trail[q],R.trail[q+1]);g.stroke();
       if(R.vy>=-.5||R.y<=R.ty){explode(R);rockets.splice(r,1)}}
     for(var j=parts.length-1;j>=0;j--){var p=parts[j];
-      if(p.flash){g.globalAlpha=p.l*.9;var gr=g.createRadialGradient(p.x,p.y,0,p.x,p.y,70);gr.addColorStop(0,"rgba(255,255,255,.9)");gr.addColorStop(1,"rgba(255,200,120,0)");g.fillStyle=gr;g.fillRect(p.x-70,p.y-70,140,140);p.l-=p.d;if(p.l<=0)parts.splice(j,1);continue}
+      if(p.flash){g.globalAlpha=p.l*.9;g.drawImage(flashC,p.x-70,p.y-70);p.l-=p.d;if(p.l<=0)parts.splice(j,1);continue}
       var ox=p.x,oy=p.y;p.vx*=.982;p.vy=p.vy*.982+p.g;p.x+=p.vx;p.y+=p.vy;p.l-=p.d;
       if(p.l<=0){parts.splice(j,1);continue}
       var al=p.cr?(Math.random()<.5?p.l:p.l*.2):p.l;g.globalAlpha=al;g.strokeStyle=p.c;g.lineWidth=p.w?1.6:2.2;g.beginPath();g.moveTo(p.x-p.vx*3,p.y-p.vy*3);g.lineTo(p.x,p.y);g.stroke()}
@@ -108,8 +111,8 @@ var entered=false,onEnter=[];
   var timers=[],shown=false;
   function showBody(){if(shown)return;shown=true;timers.forEach(clearTimeout);num.textContent="";body.classList.add("show");startCount();finale=true}
   function startCount(){
-    var house=DATA.filter(function(d){return d.cat==="house"}).length,camp=DATA.filter(function(d){return d.cat==="camp"}).length;
-    var targets={plat:6,house:house,camp:camp,route:DATA.length};
+    function cnt(c){return DATA.filter(function(d){return d.cat===c}).length}
+    var targets={plat:6,house:cnt("house"),minsu:cnt("minsu"),camp:cnt("camp")};
     document.querySelectorAll("[data-count]").forEach(function(el){var to=targets[el.getAttribute("data-count")]||0,st=performance.now()+250;
       (function tick(now){var p=Math.min(1,Math.max(0,(now-st)/1200));el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)})(performance.now())});
   }
@@ -177,7 +180,7 @@ try{
   var DPR=window.devicePixelRatio||1;
   var MAXPR=Math.min(DPR,3);
   var renderer=new THREE.WebGLRenderer({antialias:DPR<2,alpha:true,powerPreference:"high-performance",stencil:false});
-  var pr=MAXPR;renderer.setPixelRatio(pr);
+  var pr=Math.min(MAXPR,1.75);renderer.setPixelRatio(pr);renderer.debug.checkShaderErrors=false;
   stage.insertBefore(renderer.domElement,stage.firstChild);
   var scene=new THREE.Scene();
   var cam=new THREE.PerspectiveCamera(42,1,.05,400);
@@ -227,7 +230,7 @@ try{
   }));
   ocean.rotation.x=-Math.PI/2;ocean.position.y=-.02;scene.add(ocean);
 
-  var HOT={"宜蘭縣":1,"桃園市":1,"台中市":.6,"台南市":1,"高雄市":1,"新竹縣":1,"苗栗縣":1,"南投縣":1,"新北市":.6};
+  var HOT={"宜蘭縣":1,"桃園市":1,"台中市":1,"雲林縣":.6,"台南市":1,"高雄市":1,"新竹縣":1,"苗栗縣":1,"南投縣":1,"新北市":.6};
   var topPos=[],topCol=[],sidePos=[],borderPts=[],col=new THREE.Color();
   GEO.counties.forEach(function(cty){
     var hot=HOT[cty.n]||0,depth=hot?.3+hot*.12:.2;
@@ -297,7 +300,7 @@ try{
     {key:"south",name:"台南",test:function(d){return d.lat>22.95&&d.lat<23.06&&d.lng>120.1&&d.lng<120.26},off:[-.6,0],anchor:[1,.5]}
   ];
   GROUPS.forEach(function(G){G.pins=pins.filter(function(p){return G.test(p.d)});var c=new THREE.Vector3();G.pins.forEach(function(p){c.add(p.true)});c.multiplyScalar(1/Math.max(1,G.pins.length));G.sprites={};
-    ["house","camp"].forEach(function(cat){var n=G.pins.filter(function(p){return p.d.cat===cat}).length;if(n<2)return;
+    ["house","minsu","camp"].forEach(function(cat){var n=G.pins.filter(function(p){return p.d.cat===cat}).length;if(n<2)return;
       var s=label(G.name+" "+n+" 間 ▸",{size:44,bg:"rgba(245,196,81,.97)",color:"#221a00",order:28});s.center.set(G.anchor[0],G.anchor[1]);s.position.set(c.x+G.off[0],1.1,c.z+G.off[1]);s.userData.group=G.key;s.material.opacity=0;scene.add(s);G.sprites[cat]=s});
     G.pins.forEach(function(p){if(G.sprites[p.d.cat])p.group=G})});
 
@@ -322,10 +325,10 @@ try{
     all:function(){return{yaw:-.12,pitch:1.02,dist:narrow()?62:46,tx:X(120.95),tz:Z(23.95)}},
     yilan:function(){return{yaw:-.3,pitch:.92,dist:narrow()?10:7.5,tx:X(121.73),tz:Z(24.72)}},
     north:function(){return{yaw:-.2,pitch:.95,dist:narrow()?17:13,tx:X(121.1),tz:Z(24.72)}},
-    central:function(){return{yaw:-.15,pitch:.95,dist:narrow()?13:10,tx:X(121.02),tz:Z(23.96)}},
+    central:function(){return{yaw:-.15,pitch:.95,dist:narrow()?17:13,tx:X(120.85),tz:Z(23.85)}},
     south:function(){return{yaw:-.1,pitch:.95,dist:narrow()?24:18,tx:X(120.32),tz:Z(23.0)}}
   };
-  var REGNAME={all:"🗺️ 全台",yilan:"🌾 宜蘭・約 1–1.5 小時",north:"🏞️ 桃竹苗・約 1–2 小時",central:"⛰️ 南投・約 3 小時",south:"☀️ 台南高雄・約 3.5–4 小時"};
+  var REGNAME={all:"🗺️ 全台",yilan:"🌾 宜蘭・約 1–1.5 小時",north:"🏞️ 桃竹苗・約 1–2 小時",central:"⛰️ 中部・約 2–3 小時",south:"☀️ 台南高雄・約 3.5–4 小時"};
   var from=null,goal=REG.all(),tween=0,tweenDur=3.2,base={yaw:goal.yaw};
   function flyTo(g,d){from=Object.assign({},cur);goal=g;tween=0;tweenDur=reduce?.01:(d||1.4);base.yaw=g.yaw}
   flyTo(REG.all(),3.2);
@@ -371,10 +374,10 @@ try{
   document.addEventListener("visibilitychange",function(){if(!document.hidden)kick()});
   function kick(){if(!running){running=true;last=performance.now();requestAnimationFrame(loop)}}
 
-  var fAcc=0,fN=0,good=0;
-  function adapt(dt){fAcc+=dt;fN++;if(fAcc<1)return;var fps=fN/fAcc;fAcc=fN=0;
-    if(fps<50&&pr>1){pr=Math.max(1,+(pr-.25).toFixed(2));renderer.setPixelRatio(pr);resize();good=0}
-    else if(fps>58&&pr<MAXPR){if(++good>=3){pr=Math.min(MAXPR,+(pr+.25).toFixed(2));renderer.setPixelRatio(pr);resize();good=0}}
+  var fAcc=0,fN=0,good=0,cap=MAXPR;
+  function adapt(dt){fAcc+=dt;fN++;if(fAcc<.5)return;var fps=fN/fAcc;fAcc=fN=0;
+    if(fps<50&&pr>1){pr=Math.max(1,+(pr-(fps<38?.5:.25)).toFixed(2));renderer.setPixelRatio(pr);resize();good=0;cap=pr}
+    else if(fps>57&&pr<Math.min(MAXPR,cap+.25)){if(++good>=4){pr=Math.min(MAXPR,+(pr+.25).toFixed(2));renderer.setPixelRatio(pr);resize();good=0}}
     else good=0}
 
   var t0=performance.now(),fwTimer=1.5,tmp=new THREE.Vector3(),loadEl=document.getElementById("loading");loadEl.style.opacity=0;
@@ -402,7 +405,7 @@ try{
     }
     stemGeo.attributes.position.needsUpdate=true;glowGeo.attributes.position.needsUpdate=true;glowMat.size=zoom*.05;
     for(var z=0;z<zl.length;z++){var lz=zl[z],h=zoom*lz.userData.k;lz.scale.set(h*lz.userData.aspect,h,1);var lim=lz===tunnel?16:32;lz.material.opacity=lerp(lz.material.opacity,zoom<lim?.9:0,k6);lz.visible=lz.material.opacity>.02}
-    GROUPS.forEach(function(G){["house","camp"].forEach(function(cat){var sp=G.sprites[cat];if(!sp)return;var want=(far&&cat===catShow&&focused<0)?1:0;
+    GROUPS.forEach(function(G){["house","minsu","camp"].forEach(function(cat){var sp=G.sprites[cat];if(!sp)return;var want=(far&&cat===catShow&&focused<0)?1:0;
       sp.material.opacity=lerp(sp.material.opacity,want,k6);sp.visible=sp.material.opacity>.02;var cs=zoom*.05*(1+.04*Math.sin(t*3));sp.scale.set(cs*sp.userData.aspect,cs,1)})});
     if(focused>=0){var fp=pins[focused];
       if(fp.route){var r=fp.route,target=((t*.12)%1)*r.L,j=1;while(j<r.len.length-1&&r.len[j]<target)j++;

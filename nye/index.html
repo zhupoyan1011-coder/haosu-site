@@ -8,7 +8,7 @@
 <title>跨年包棟與露營清單 12/31–1/2</title>
 <meta property="og:title" content="跨年包棟與露營清單 12/31–1/2">
 <meta property="og:description" content="唱歌＋烤肉包棟、懶人露營，兩晚都有空房的清單，附輔大出發車程與附近景點。">
-<link rel="stylesheet" href="fonts.css?v=6">
+<link rel="stylesheet" href="fonts.css?v=7">
 <style>
 :root{
   /* 單一夜空主題：深藍夜空、煙火金、燈籠紅、營火青。上方 3D 地圖，下方排行卡片 */
@@ -152,8 +152,8 @@ h1{font-weight:400}
       <div class="stats">
         <div><b data-count="plat">0</b><small>管道</small></div>
         <div><b data-count="house">0</b><small>包棟</small></div>
+        <div><b data-count="minsu">0</b><small>民宿</small></div>
         <div><b data-count="camp">0</b><small>露營</small></div>
-        <div><b data-count="route">0</b><small>路線</small></div>
       </div>
       <button id="enterBtn" class="enter">進入 Ben（第三型 Agent）</button>
     </div>
@@ -162,8 +162,8 @@ h1{font-weight:400}
 <div class="wrap">
 <header>
   <div class="kicker">12/31 – 1/2 · 6–8 人 · 輔大出發</div>
-  <h1>跨年包棟清單</h1>
-  <p class="lede">兩晚有空・整棟包下・每人 5,000 以下。點卡片看位置。</p>
+  <h1>跨年住宿清單</h1>
+  <p class="lede">兩晚都有空。包棟每人 5,000 內，民宿每人 2,500 內。點卡片看位置。</p>
   <div class="facts">
     <span class="fact">價格＝<b>兩晚總價</b></span>
     <span class="fact">查詢 <b>11/19</b></span>
@@ -175,12 +175,12 @@ h1{font-weight:400}
     <button class="rg on" data-r="all">全台</button>
     <button class="rg" data-r="yilan">宜蘭</button>
     <button class="rg" data-r="north">桃竹苗</button>
-    <button class="rg" data-r="central">南投</button>
+    <button class="rg" data-r="central">中部</button>
     <button class="rg" data-r="south">台南高雄</button>
   </div>
   <div id="tag"><b>🎓 從輔大出發</b><span class="hint">點圖釘看詳情</span></div>
   <div class="legend">
-    <span>🎤 唱歌＋烤肉</span><span>🍖 二選一</span><span>🏠 一般</span><span>⛺ 露營</span>
+    <span>🎤 唱歌＋烤肉</span><span>🍖 二選一</span><span>🏠 一般</span><span>🛏️ 民宿</span><span>⛺ 露營</span>
   </div>
   <div id="sheet" hidden>
     <button class="x" id="sheetX" aria-label="關閉">×</button>
@@ -195,9 +195,11 @@ h1{font-weight:400}
 
 <div class="tabs" role="tablist">
   <button class="tab" role="tab" id="tab-house" aria-selected="true" aria-controls="panel-house">包棟（<span id="cHouse">0</span>）</button>
+  <button class="tab" role="tab" id="tab-minsu" aria-selected="false" aria-controls="panel-minsu">民宿（<span id="cMinsu">0</span>）</button>
   <button class="tab" role="tab" id="tab-camp" aria-selected="false" aria-controls="panel-camp">露營（<span id="cCamp">0</span>）</button>
 </div>
 <section id="panel-house" role="tabpanel" aria-labelledby="tab-house"></section>
+<section id="panel-minsu" role="tabpanel" aria-labelledby="tab-minsu" hidden></section>
 <section id="panel-camp" role="tabpanel" aria-labelledby="tab-camp" hidden></section>
 
 <footer>
@@ -206,8 +208,8 @@ h1{font-weight:400}
 </footer>
 </div>
 <script src="three.min.js"></script>
-<script src="geo.js?v=6"></script>
-<script src="data.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="geo.js?v=7"></script>
+<script src="data.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
