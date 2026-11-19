@@ -7,7 +7,7 @@ var T={
  B:{label:"🥈 烤肉或唱歌",desc:"二選一",color:"#ff7a5c"},
  C:{label:"🏠 一般包棟",desc:"便宜為主",color:"#9aa6ff"},
  D:{label:"⛺ 露營・小木屋",desc:"不用帶裝備",color:"#4fd6c4"},
- M:{label:"🛏️ 高評分民宿",desc:"分房住 · 有交誼空間",color:"#ff8fd0"}
+ M:{label:"🛏️ 台中民宿・飯店",desc:"最後方案 · 分房住",color:"#ff8fd0"}
 };
 var ICON={A:"🎤",B:"🍖",C:"🏠",D:"⛺",M:"🛏️"};
 function iconOf(d){return d.tier==="B"&&d.ktv&&!d.bbq?"🎤":ICON[d.tier]}
@@ -17,7 +17,7 @@ DATA.forEach(function(d,i){d.idx=i});
 /* ---------- 清單 ---------- */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function money(n){return n==null?"點連結看":"$"+n.toLocaleString("en-US")}
-function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return d&&d.cat==="minsu"?"8 人每人 "+f(8):"10 人每人 "+f(10)+"・8 人 "+f(8)}
+function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return "10 人每人 "+f(10)+"・8 人 "+f(8)}
 function dur(m){var h=Math.floor(m/60);return(h?h+" 小時 ":"")+(m%60)+" 分"}
 var rankOf={};
 function card(d,n){
@@ -230,7 +230,7 @@ try{
   }));
   ocean.rotation.x=-Math.PI/2;ocean.position.y=-.02;scene.add(ocean);
 
-  var HOT={"宜蘭縣":1,"桃園市":1,"台中市":1,"雲林縣":.6,"台南市":1,"高雄市":1,"新竹縣":1,"苗栗縣":1,"南投縣":1,"新北市":.6};
+  var HOT={"宜蘭縣":1,"桃園市":1,"台中市":1,"雲林縣":1,"彰化縣":1,"嘉義縣":1,"嘉義市":1,"新竹市":1,"台南市":1,"高雄市":1,"新竹縣":1,"苗栗縣":1,"南投縣":1,"新北市":.6};
   var topPos=[],topCol=[],sidePos=[],borderPts=[],col=new THREE.Color();
   GEO.counties.forEach(function(cty){
     var hot=HOT[cty.n]||0,depth=hot?.3+hot*.12:.2;
