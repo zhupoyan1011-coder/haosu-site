@@ -17,7 +17,7 @@ DATA.forEach(function(d,i){d.idx=i});
 /* ---------- 清單 ---------- */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function money(n){return n==null?"點連結看":"$"+n.toLocaleString("en-US")}
-function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return "10 人每人 "+f(10)+"・8 人 "+f(8)}
+function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return "11 人每人 "+f(11)}
 function dur(m){var h=Math.floor(m/60);return(h?h+" 小時 ":"")+(m%60)+" 分"}
 var rankOf={};
 function card(d,n){
