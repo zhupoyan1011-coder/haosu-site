@@ -1,6 +1,9 @@
 /* Phone-first layer: the phone is the only booking channel, so every call target is large and shows the number. */
 
-@keyframes call-ring{0%{box-shadow:0 0 0 0 rgba(166,124,82,.55)}70%{box-shadow:0 0 0 14px rgba(166,124,82,0)}100%{box-shadow:0 0 0 0 rgba(166,124,82,0)}}
+/* Pulse ring drawn on ::before and animated with transform/opacity only, so it runs on the GPU and never repaints while scrolling. */
+@keyframes call-ring{0%{opacity:.75;transform:scale(1)}70%{opacity:0;transform:scale(1.08,1.28)}100%{opacity:0;transform:scale(1.08,1.28)}}
+.cinematic-hero .button.primary[href^="tel:"],.mobile-booking>a:last-child{position:relative}
+.cinematic-hero .button.primary[href^="tel:"]::before,.mobile-booking>a:last-child::before{content:"";position:absolute;inset:-1px;border-radius:inherit;border:3px solid rgba(166,124,82,.7);pointer-events:none;opacity:0;will-change:transform,opacity}
 
 /* Plain tel links inside text */
 main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;letter-spacing:.04em;white-space:nowrap;text-decoration:underline;text-underline-offset:5px}
@@ -10,7 +13,7 @@ main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;
 .compact-site .button.primary[href^="tel:"]::after{content:"0966-717-732";font-size:22px;font-weight:700;letter-spacing:.06em;color:#8a6540;padding-left:12px;border-left:1px solid #b6a994}
 .room-booking .button.primary[href^="tel:"]{background:#8a6540;border-color:#8a6540;color:#fff}
 .room-booking .button.primary[href^="tel:"]::after{color:#fff;border-left-color:rgba(255,255,255,.5)}
-.cinematic-hero .button.primary[href^="tel:"]{animation:call-ring 2.8s ease-out 1.4s infinite}
+.cinematic-hero .button.primary[href^="tel:"]::before{animation:call-ring 2.8s ease-out 1.4s infinite}
 @media(max-width:560px){
   .cinematic-hero .hero-actions{flex-direction:column;align-items:stretch;width:100%}
   .compact-site .button.primary[href^="tel:"]{flex-direction:column;gap:0;padding:10px 16px}
@@ -24,7 +27,8 @@ main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;
 
 /* Mobile bottom bar: the call button takes most of the width and shows the number */
 .mobile-booking{grid-template-columns:76px 1fr;padding-top:10px}
-.mobile-booking>a:last-child{min-height:62px;background:#8a6540;border-color:#8a6540;animation:call-ring 2.8s ease-out 2s infinite}
+.mobile-booking>a:last-child{min-height:62px;background:#8a6540;border-color:#8a6540}
+.mobile-booking>a:last-child::before{animation:call-ring 2.8s ease-out 2s infinite}
 .mobile-booking>a:last-child span{display:block;text-align:center;font-size:13px;line-height:1.35}
 .mobile-booking>a:last-child span::before{content:"0966-717-732";display:block;font-size:22px;font-weight:700;letter-spacing:.06em;line-height:1.25}
 .mobile-booking>a:last-child small{display:inline;font-size:11px;margin-left:6px;color:#f1e6d6}
@@ -44,7 +48,7 @@ main a[href^="tel:"]:not([class]){color:#8a6540;font-weight:700;font-size:1.1em;
 .call-card.is-on{opacity:1;transform:none;pointer-events:auto}
 @media(min-width:1024px){.call-card{display:block}}
 @media print{.call-card{display:none!important}}
-@media(prefers-reduced-motion:reduce){.cinematic-hero .button.primary[href^="tel:"],.mobile-booking>a:last-child{animation:none}}
+@media(prefers-reduced-motion:reduce){.cinematic-hero .button.primary[href^="tel:"]::before,.mobile-booking>a:last-child::before{animation:none}}
 
 /* English pages: show the international format */
 .compact-site[lang^="en"] .button.primary[href^="tel:"]::after{content:"+886 966 717 732"}
