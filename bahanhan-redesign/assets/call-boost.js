@@ -82,7 +82,13 @@
     var atEnd = f && f.getBoundingClientRect().top < window.innerHeight - 40;
     card.classList.toggle('is-on', window.scrollY > 120 && !atEnd);
   }
-  window.addEventListener('scroll', toggle, { passive: true });
+  // Check at most once per frame so scrolling never waits on layout reads.
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; toggle(); });
+  }, { passive: true });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
