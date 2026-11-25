@@ -5,8 +5,5 @@
   "description": "留燈資料管家：Ben 自己用的接案與資料管理 app（Cloudflare Pages + D1）",
   "dependencies": {
     "@anthropic-ai/sdk": "1.14.0"
-  },
-  "devDependencies": {
-    "wrangler": "3.114.17"
   }
 }

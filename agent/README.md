@@ -12,4 +12,4 @@ Ben 自己用的接案與資料管理 app。跟留燈官網完全分開：獨立
 
 **個資不進這個 repo**（repo 是公開的）。客人資料只存在 D1；要匯入的資料檔放在專案共用資料夾 `管理app/`，由 Ben 在 app 的「設定 → 匯入」上傳。
 
-本機測試：`npm install`，自己寫一份 wrangler.toml（見 workflow）與 `.dev.vars`（APP_PASSWORD、ANTHROPIC_API_KEY），`npx wrangler d1 execute liudeng-agent-db --local --file schema.sql`，`npx wrangler pages dev public`。
+本機測試：`npm install`（wrangler 用 `npx --yes wrangler@3.114.17`），自己寫一份 wrangler.toml（見 workflow）與 `.dev.vars`（APP_PASSWORD、ANTHROPIC_API_KEY），`npx wrangler d1 execute liudeng-agent-db --local --file schema.sql`，`npx wrangler pages dev public`。
