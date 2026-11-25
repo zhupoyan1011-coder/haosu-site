@@ -47,15 +47,15 @@ jobs:
 
       - name: Create database if missing
         run: |
-          if ! npx wrangler d1 list --json > d1.json 2> d1.err; then
+          if ! npx --yes wrangler@3.114.17 d1 list --json > d1.json 2> d1.err; then
             cat d1.err
             echo "::error title=資料庫::Cloudflare 金鑰沒有 D1 權限。請照使用教學第 1 步，在 Cloudflare 的 API 權杖加上「D1 編輯」，再到 GitHub Actions 按 Re-run。"
             exit 1
           fi
           id=$(node -e "const l=require('./d1.json');const d=l.find(x=>x.name===process.env.DB_NAME);process.stdout.write(d?d.uuid:'')")
           if [ -z "$id" ]; then
-            npx wrangler d1 create "$DB_NAME"
-            npx wrangler d1 list --json > d1.json
+            npx --yes wrangler@3.114.17 d1 create "$DB_NAME"
+            npx --yes wrangler@3.114.17 d1 list --json > d1.json
             id=$(node -e "const l=require('./d1.json');const d=l.find(x=>x.name===process.env.DB_NAME);process.stdout.write(d?d.uuid:'')")
           fi
           [ -n "$id" ] || { echo "::error title=資料庫::建立資料庫失敗"; exit 1; }
@@ -71,10 +71,10 @@ jobs:
           sed -i 's/^          //' wrangler.toml
 
       - name: Update database tables (never deletes data)
-        run: npx wrangler d1 execute "$DB_NAME" --remote --file schema.sql --yes
+        run: npx --yes wrangler@3.114.17 d1 execute "$DB_NAME" --remote --file schema.sql --yes
 
       - name: Create project if missing
-        run: npx wrangler pages project create "$PROJECT" --production-branch main || true
+        run: npx --yes wrangler@3.114.17 pages project create "$PROJECT" --production-branch main || true
 
       - name: Save secrets to Cloudflare
         env:
@@ -82,20 +82,20 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           if [ ${#APP_PASSWORD} -ge 8 ]; then
-            printf '%s' "$APP_PASSWORD" | npx wrangler pages secret put APP_PASSWORD --project-name "$PROJECT"
+            printf '%s' "$APP_PASSWORD" | npx --yes wrangler@3.114.17 pages secret put APP_PASSWORD --project-name "$PROJECT"
           else
             echo "::warning title=登入密碼::GitHub Secrets 還沒有 APP_PASSWORD（至少 8 個字），app 會擋住所有人，包括你。"
           fi
           if [ -n "$ANTHROPIC_API_KEY" ]; then
-            printf '%s' "$ANTHROPIC_API_KEY" | npx wrangler pages secret put ANTHROPIC_API_KEY --project-name "$PROJECT"
+            printf '%s' "$ANTHROPIC_API_KEY" | npx --yes wrangler@3.114.17 pages secret put ANTHROPIC_API_KEY --project-name "$PROJECT"
           else
             echo "::notice title=AI::還沒有 ANTHROPIC_API_KEY，app 會用手動分類。"
           fi
 
       - name: Deploy
-        run: npx wrangler pages deploy --project-name "$PROJECT" --branch main --commit-dirty=true
+        run: npx --yes wrangler@3.114.17 pages deploy --project-name "$PROJECT" --branch main --commit-dirty=true
 
       - name: Report address
         run: |
-          npx wrangler pages project list > projects.txt
+          npx --yes wrangler@3.114.17 pages project list > projects.txt
           grep -oE "$PROJECT[a-z0-9-]*\.pages\.dev" projects.txt | sort -u | while read d; do echo "::notice title=網址::https://$d"; done
