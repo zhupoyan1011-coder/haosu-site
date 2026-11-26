@@ -17,7 +17,7 @@ DATA.forEach(function(d,i){d.idx=i});
 /* ---------- 清單 ---------- */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function money(n){return n==null?"點連結看":"$"+n.toLocaleString("en-US")}
-function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return "11 人每人 "+f(11)}
+function per(n,d){if(n==null)return"依營位";var f=function(k){return"$"+Math.round(n/k).toLocaleString("en-US")};return "每人 "+f(11)}
 function dur(m){var h=Math.floor(m/60);return(h?h+" 小時 ":"")+(m%60)+" 分"}
 var rankOf={};
 function card(d,n){
@@ -25,7 +25,7 @@ function card(d,n){
   return '<article class="card" tabindex="0" data-idx="'+d.idx+'" style="--c:'+T[d.tier].color+';--i:'+Math.min(n,14)+'">'+
   '<div class="top"><div class="rank">'+n+'</div><div><div class="name">'+esc(d.s)+'</div><div class="where">'+esc(d.where)+" · "+esc(d.plat)+" · "+esc(d.cap)+'</div></div></div>'+
   '<div class="pills"><span class="pill '+(d.ktv?"yes":"no")+'">卡拉OK</span><span class="pill '+(d.bbq?"yes":"no")+'">烤肉</span><span class="pill">評價 '+esc(d.rating)+'</span></div>'+
-  '<div class="nums"><div class="num"><small>兩晚</small><b>'+money(d.price)+'</b><small>'+per(d.price,d)+'</small></div><div class="num"><small>車程</small><b>'+dur(d.mins)+'</b><small>約 '+d.km+' 公里</small></div></div>'+
+  '<div class="nums"><div class="num"><small>1 晚</small><b>'+money(d.price)+'</b><small>'+per(d.price,d)+'</small></div><div class="num"><small>大雅過去</small><b>'+dur(d.mins)+'</b><small>回台北約 '+dur(d.tp)+'</small></div></div>'+
   '<div><div class="label">附近</div><ul class="near">'+near+'</ul></div>'+
   (d.note?'<div class="note">'+esc(d.note)+'</div>':"")+
   '<a class="go" href="'+esc(d.url)+'" target="_blank" rel="noopener">訂房</a></article>';
@@ -170,7 +170,7 @@ document.querySelectorAll(".rg").forEach(function(b){b.addEventListener("click",
 function setRegionBtn(r){document.querySelectorAll(".rg").forEach(function(b){b.classList.toggle("on",b.dataset.r===r)})}
 
 /* ---------- 3D 地圖 ---------- */
-var MAPTEXT=DATA.map(function(d){return d.s}).join("")+"宜蘭縣桃園市新竹縣苗栗縣台中市南投縣台南市高雄市新北市國道5號・雪山隧道輔大出發宜蘭南投台南間▸小時分0123456789";
+var MAPTEXT=DATA.map(function(d){return d.s}).join("")+"宜蘭縣桃園市新竹縣苗栗縣台中市南投縣台南市高雄市新北市大雅出發台北回彰化南投日月潭尖石台中市區間▸小時分0123456789";
 var fontReady=(document.fonts&&document.fonts.load)?Promise.race([document.fonts.load("40px Huninn",MAPTEXT),new Promise(function(r){setTimeout(r,3000)})]):Promise.resolve();
 whenEntered(function(){fontReady.then(startMap,startMap)});
 
@@ -253,14 +253,14 @@ try{
   scene.add(new THREE.HemisphereLight(0xaab4ff,0x0b1029,.6));
   var sun=new THREE.DirectionalLight(0xfff1d6,.55);sun.position.set(-8,20,12);scene.add(sun);
   var zl=[];
-  var CL={"宜蘭縣":[24.6,121.62],"桃園市":[24.93,121.2],"新竹縣":[24.72,121.1],"苗栗縣":[24.48,120.95],"台中市":[24.2,120.95],"南投縣":[23.82,120.98],"台南市":[23.15,120.35],"高雄市":[22.98,120.62],"新北市":[24.95,121.55]};
+  var CL={"桃園市":[24.93,121.2],"新竹縣":[24.72,121.1],"苗栗縣":[24.48,120.95],"台中市":[24.25,120.95],"彰化縣":[23.98,120.5],"南投縣":[23.82,120.98],"台北市":[25.06,121.56]};
   Object.keys(CL).forEach(function(n){var s=label(n,{size:40,color:"#d5dbff",stroke:6,order:5,pad:6,k:.036});var p=CL[n];s.position.set(X(p[1]),.9,Z(p[0]));scene.add(s);zl.push(s)});
-  var tunnel=label("國道5號・雪山隧道",{size:32,color:"#a8b7ff",stroke:6,order:5,pad:6,k:.028});tunnel.position.set(X(121.74),.85,Z(24.9));scene.add(tunnel);zl.push(tunnel);
+  var tunnel=label("↑ 台北",{size:32,color:"#a8b7ff",stroke:6,order:5,pad:6,k:.028});tunnel.position.set(X(121.45),.85,Z(24.98));scene.add(tunnel);zl.push(tunnel);
 
-  var O=V(25.0365,121.4319,.5);
+  var O=V(24.229,120.648,.5);
   var oRing=new THREE.Mesh(new THREE.RingGeometry(.12,.17,48),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.6,side:THREE.DoubleSide,depthWrite:false}));
   oRing.rotation.x=-Math.PI/2;oRing.position.copy(O).setY(.53);scene.add(oRing);
-  var oLabel=label("🎓 輔大出發",{size:44,bg:"rgba(255,255,255,.96)",color:"#0b1029",order:30});oLabel.center.set(.5,0);oLabel.position.copy(O).setY(.7);scene.add(oLabel);
+  var oLabel=label("🏠 大雅出發",{size:44,bg:"rgba(255,255,255,.96)",color:"#0b1029",order:30});oLabel.center.set(.5,0);oLabel.position.copy(O).setY(.7);scene.add(oLabel);
 
   var RV="attribute float aU;attribute float aS;attribute vec2 aN;uniform float uW;varying float vU;varying float vS;void main(){vU=aU;vS=aS;vec3 p=position;p.xz+=aN*aS*uW;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}";
   var RF="precision mediump float;uniform float uT;uniform vec3 uC;uniform float uF;uniform float uV;uniform float uG;varying float vU;varying float vS;void main(){if(vU>uG)discard;float edge=1.-vS*vS;float f=fract(vU*14.-uT*1.2);float dash=smoothstep(.0,.35,f)*smoothstep(1.,.65,f);float a=(.3+uF*(.4+.6*dash))*edge*uV;gl_FragColor=vec4(uC*(1.+uF*.6),a);}";
@@ -295,9 +295,9 @@ try{
   var glows=new THREE.Points(glowGeo,glowMat);glows.frustumCulled=false;scene.add(glows);
 
   var GROUPS=[
-    {key:"yilan",name:"宜蘭",test:function(d){return d.lng>121.5&&d.lat>24.45&&d.lat<25},off:[.7,0],anchor:[0,.5]},
-    {key:"nantou",name:"南投",test:function(d){return d.lat>23.8&&d.lat<24.1&&d.lng>120.9&&d.lng<121.2},off:[.6,0],anchor:[0,.5]},
-    {key:"south",name:"台南",test:function(d){return d.lat>22.95&&d.lat<23.06&&d.lng>120.1&&d.lng<120.26},off:[-.6,0],anchor:[1,.5]}
+    {key:"taichung",name:"台中市區",test:function(d){return d.lat>24.12&&d.lat<24.2&&d.lng>120.62&&d.lng<120.74},off:[-.6,0],anchor:[1,.5]},
+    {key:"nantou",name:"日月潭",test:function(d){return d.lat>23.85&&d.lat<23.92&&d.lng>120.9&&d.lng<120.95},off:[.6,0],anchor:[0,.5]},
+    {key:"north",name:"尖石",test:function(d){return d.lat>24.7&&d.lat<24.75&&d.lng>121.2&&d.lng<121.3},off:[.6,0],anchor:[0,.5]}
   ];
   GROUPS.forEach(function(G){G.pins=pins.filter(function(p){return G.test(p.d)});var c=new THREE.Vector3();G.pins.forEach(function(p){c.add(p.true)});c.multiplyScalar(1/Math.max(1,G.pins.length));G.sprites={};
     ["house","minsu","camp"].forEach(function(cat){var n=G.pins.filter(function(p){return p.d.cat===cat}).length;if(n<2)return;
@@ -322,13 +322,12 @@ try{
   var narrow=function(){return cam.aspect<.8};
   var cur={yaw:0,pitch:1.45,dist:120,tx:X(121),tz:Z(23.9)};
   var REG={
-    all:function(){return{yaw:-.12,pitch:1.02,dist:narrow()?62:46,tx:X(120.95),tz:Z(23.95)}},
-    yilan:function(){return{yaw:-.3,pitch:.92,dist:narrow()?10:7.5,tx:X(121.73),tz:Z(24.72)}},
-    north:function(){return{yaw:-.2,pitch:.95,dist:narrow()?17:13,tx:X(121.1),tz:Z(24.72)}},
-    central:function(){return{yaw:-.15,pitch:.95,dist:narrow()?17:13,tx:X(120.85),tz:Z(23.85)}},
-    south:function(){return{yaw:-.1,pitch:.95,dist:narrow()?24:18,tx:X(120.32),tz:Z(23.0)}}
+    all:function(){return{yaw:-.12,pitch:1.02,dist:narrow()?34:26,tx:X(120.85),tz:Z(24.3)}},
+    taichung:function(){return{yaw:-.15,pitch:.95,dist:narrow()?6:4.5,tx:X(120.69),tz:Z(24.18)}},
+    north:function(){return{yaw:-.2,pitch:.95,dist:narrow()?14:11,tx:X(120.98),tz:Z(24.62)}},
+    central:function(){return{yaw:-.15,pitch:.95,dist:narrow()?14:11,tx:X(120.75),tz:Z(23.9)}}
   };
-  var REGNAME={all:"🗺️ 全台",yilan:"🌾 宜蘭・約 1–1.5 小時",north:"🏞️ 桃竹苗・約 1–2 小時",central:"⛰️ 中部・約 2–3 小時",south:"☀️ 台南高雄・約 3.5–4 小時"};
+  var REGNAME={all:"🗺️ 全部",taichung:"🏙️ 台中・約 10–30 分",north:"🏞️ 桃竹苗・約 0.5–2 小時",central:"⛰️ 彰化南投・約 0.5–1.5 小時"};
   var from=null,goal=REG.all(),tween=0,tweenDur=3.2,base={yaw:goal.yaw};
   function flyTo(g,d){from=Object.assign({},cur);goal=g;tween=0;tweenDur=reduce?.01:(d||1.4);base.yaw=g.yaw}
   flyTo(REG.all(),3.2);
@@ -429,7 +428,7 @@ try{
     fwGeo.attributes.position.needsUpdate=true;fwGeo.attributes.color.needsUpdate=true;fwMat.size=zoom*.016;
     renderer.render(scene,cam);requestAnimationFrame(loop);
   }
-  setTag('<b>🎓 從輔大出發</b><span class="hint">點圖釘看詳情</span>');
+  setTag('<b>🏠 從大雅朋友家出發</b><span class="hint">點圖釘看詳情</span>');
   kick();
 }catch(err){
   var le=document.getElementById("loading");if(le)le.textContent="這台裝置無法顯示 3D 地圖，下方清單仍可正常使用。";
