@@ -1,6 +1,6 @@
 name: Monthly site check
 
-# On the 1st of each month (10:00 Taiwan time) check that the live site and the quote form still work.
+# On the 1st of each month (10:00 Taiwan time) check that the live site, client sites and the quote form still work.
 # The form check sends one row marked 測試 to the quote sheet. If anything fails, this run turns red
 # and opens an issue so Ben gets an email from GitHub.
 on:
@@ -42,6 +42,22 @@ jobs:
           check /assets/site.js         'quoteUrl'
           exit $fail
 
+      - name: Client sites still open (芭涵漢 bahanhan.com)
+        run: |
+          fail=0
+          check() {
+            body=$(curl -sSL --max-time 30 -w '\n%{http_code}' "$1") || { echo "::error::$1 打不開（或 HTTPS 憑證有問題）"; fail=1; return; }
+            code=$(printf '%s' "$body" | tail -n1)
+            if [ "$code" != "200" ]; then echo "::error::$1 回應 $code"; fail=1; return; fi
+            if ! printf '%s' "$body" | grep -q "$2"; then echo "::error::$1 找不到「$2」"; fail=1; return; fi
+            echo "ok $1"
+          }
+          check https://bahanhan.com/        '芭涵漢民宿'
+          check https://bahanhan.com/rooms/  '芭涵漢'
+          check https://bahanhan.com/en/     'Bahanhan'
+          check https://www.bahanhan.com/    '芭涵漢民宿'
+          exit $fail
+
       - name: Quote form saves a test row
         run: |
           url=$(grep -oE "https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec" assets/site.js | head -n1)
@@ -68,4 +84,4 @@ jobs:
         run: |
           gh issue create --repo "$GITHUB_REPOSITORY" \
             --title "每月自動檢查失敗（$(TZ=Asia/Taipei date +%Y-%m-%d)）" \
-            --body "留燈網站或估價單的每月檢查沒有通過。點這裡看哪一項失敗：$RUN_URL"
+            --body "留燈網站、客人網站或估價單的每月檢查沒有通過。點這裡看哪一項失敗：$RUN_URL"
