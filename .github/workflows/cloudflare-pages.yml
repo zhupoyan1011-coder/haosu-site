@@ -2,11 +2,12 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, 'claude/project-thread-nmmdik']
   workflow_dispatch:
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -33,6 +34,7 @@ jobs:
           echo "::notice title=files::$(find dist -type f | wc -l)"
 
   deploy-bahanhan:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -49,3 +51,24 @@ jobs:
         run: npx --yes wrangler@3 pages deploy bahanhan-redesign --project-name "$PROJECT" --branch main --commit-dirty=true
       - name: Report file count
         run: echo "::notice title=files::$(find bahanhan-redesign -type f | wc -l)"
+
+  # Oia Cafe redesign proposal; also deploys from its working branch so it can be previewed before merging
+  deploy-oiacafe:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ACCOUNT_ID_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PROJECT: oiacafe-redesign
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve account
+        run: |
+          if [ -n "$ACCOUNT_ID_SECRET" ]; then echo "CLOUDFLARE_ACCOUNT_ID=$ACCOUNT_ID_SECRET" >> "$GITHUB_ENV"; fi
+      - name: Create project if missing
+        run: npx --yes wrangler@3 pages project create "$PROJECT" --production-branch main || true
+      - name: Deploy
+        run: npx --yes wrangler@3 pages deploy oiacafe-redesign --project-name "$PROJECT" --branch main --commit-dirty=true
+      - name: Report site address
+        run: |
+          npx --yes wrangler@3 pages project list > projects.txt
+          grep -oE 'oiacafe-redesign[a-z0-9-]*\.pages\.dev' projects.txt | sort -u | while read d; do echo "::notice title=pages::$d"; done
